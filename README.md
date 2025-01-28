@@ -18,9 +18,8 @@ The course will cover the following topics:
 
 ### Module 2: Data Processing and Communication
 * Python for Data Processing:
-* Data manipulation with Pandas
+* Data manipulation with Python
 * Data cleaning and preprocessing
-
 * Kafka for Real-Time Data Streaming:
 * Introduction to Kafka and its role in DSS
 * Setting up Kafka producers and consumers
@@ -33,10 +32,10 @@ The course will cover the following topics:
 * Handling asynchronous operations
 
 ### Module 4: Visualization and User Interface
-jQuery for Interactive Visualizations:
-Basics of jQuery and DOM manipulation
-Integrating charts and graphs using libraries like Chart.js
-Building a user-friendly interface for DSS
+* jQuery for Interactive Visualizations:
+* Basics of jQuery and DOM manipulation
+* Integrating charts and graphs using libraries like Chart.js
+* Building a user-friendly interface for DSS
 
 ### Module 5: Machine Learning for Decision Support
 * Introduction to machine learning in DSS
@@ -56,9 +55,3 @@ Building a user-friendly interface for DSS
 * Combining data processing, machine learning, and visualization
 * Case studies: Building a DSS for a real-world problem (e.g., healthcare diagnostics, financial forecasting)
 * Best practices for deploying and maintaining DSS
-
-### Module 4: Visualization and User Interface
-* jQuery for Interactive Visualizations:
-* Basics of jQuery and DOM manipulation
-* Integrating charts and graphs using libraries like Chart.js
-* Building a user-friendly interface for DSS
