@@ -33,6 +33,31 @@ The course will cover the following topics:
 * Handling asynchronous operations
 
 ### Module 4: Visualization and User Interface
+jQuery for Interactive Visualizations:
+Basics of jQuery and DOM manipulation
+Integrating charts and graphs using libraries like Chart.js
+Building a user-friendly interface for DSS
+
+### Module 5: Machine Learning for Decision Support
+* Introduction to machine learning in DSS
+* Logistic Regression
+* Support Vector Machines (SVM)
+* K-Means Clustering
+* Artificial Neural Networks (ANN):
+* Basics of ANN and their role in decision-making
+* Building a simple ANN using Python (TensorFlow/Keras)
+
+### Module 6: Fuzzy Logic for Decision Support
+* Introduction to fuzzy logic and its applications in DSS
+* Fuzzy sets and membership functions
+* Building a simple fuzzy logic system in Python
+
+### Module 7: Integrating Components into a DSS
+* Combining data processing, machine learning, and visualization
+* Case studies: Building a DSS for a real-world problem (e.g., healthcare diagnostics, financial forecasting)
+* Best practices for deploying and maintaining DSS
+
+### Module 4: Visualization and User Interface
 * jQuery for Interactive Visualizations:
 * Basics of jQuery and DOM manipulation
 * Integrating charts and graphs using libraries like Chart.js
