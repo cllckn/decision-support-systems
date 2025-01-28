@@ -55,3 +55,17 @@ The course will cover the following topics:
 * Combining data processing, machine learning, and visualization
 * Case studies: Building a DSS for a real-world problem (e.g., healthcare diagnostics, financial forecasting)
 * Best practices for deploying and maintaining DSS
+
+### Course Policies
+    Attendance: Regular attendance is mandatory. More than 3 unexcused absences may result in a grade penalty.
+    Late Submissions: Assignments submitted late will incur a 10% penalty per day.
+    Academic Integrity: Plagiarism or cheating will result in disciplinary action as per university policy.
+    Communication: All course-related communication will be done via the university’s learning management system (LMS) or instructor’s e-mail. Check your university email regularly for updates and announcements.
+
+### Resources
+    "Decision Support Systems and Intelligent Systems" by Efraim Turban and Jay E. Aronson.
+    "Python Machine Learning" by Sebastian Raschka.
+    "Node.js Design Patterns" by Mario Casciaro.
+    "Kafka: The Definitive Guide" by Neha Narkhede, Gwen Shapira, and Todd Palino.
+    Online documentation for Python, Node.js, Kafka, and jQuery.
+
