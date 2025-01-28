@@ -10,8 +10,8 @@ A Decision Support System (DSS) is a computer-based tool that helps individuals 
 
 ## Course Content
 The course will cover the following topics:
-Module 1: Introduction to Expert Systems and Decision Support Systems
-Overview of expert systems and DSS
-Applications of DSS in various domains (e.g., healthcare, finance, logistics)
-Components of a DSS: data management, model management, user interface
-Introduction to the tools: Python, Node.js, Kafka, jQuery
+* Module 1: Introduction to Expert Systems and Decision Support Systems
+  Overview of expert systems and DSS
+  Applications of DSS in various domains (e.g., healthcare, finance, logistics)
+  Components of a DSS: data management, model management, user interface
+  Introduction to the tools: Python, Node.js, Kafka, jQuery
