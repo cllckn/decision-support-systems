@@ -56,12 +56,22 @@ The course will cover the following topics:
 * Case studies: Building a DSS for a real-world problem (e.g., healthcare diagnostics, financial forecasting)
 * Best practices for deploying and maintaining DSS
 
+### Evaluation Method
+?
+
 ### Course Policies
-    Attendance: Regular attendance is mandatory. More than 3 unexcused absences may result in a grade penalty.
-    Late Submissions: Assignments submitted late will incur a 10% penalty per day.
+    Attendance: ?
+    Late Submissions: ?
     Academic Integrity: Plagiarism or cheating will result in disciplinary action as per university policy.
     Communication: All course-related communication will be done via the university’s learning management system (LMS) or instructor’s e-mail. Check your university email regularly for updates and announcements.
 
+### Tools:
+    PyCharm (https://www.jetbrains.com/pycharm/download)
+    Apache Kafka (https://kafka.apache.org/downloads)
+    IntelliJ IDEA Ultimate  (https://www.jetbrains.com/idea/download)
+    Node.js (https://nodejs.org/en/download) (IntelliJ IDEA -> Preferences -> Node.js )
+    JQuery (https://jquery.com/)
+   
 ### Resources
     "Decision Support Systems and Intelligent Systems" by Efraim Turban and Jay E. Aronson.
     "Python Machine Learning" by Sebastian Raschka.
