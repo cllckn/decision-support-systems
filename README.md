@@ -73,6 +73,8 @@ The course will cover the following topics:
     JQuery (https://jquery.com/)
    
 ### Resources
+    Main:
+    https://github.com/cllckn/decision-support-systems
     "Decision Support Systems and Intelligent Systems" by Efraim Turban and Jay E. Aronson.
     "Python Machine Learning" by Sebastian Raschka.
     "Node.js Design Patterns" by Mario Casciaro.
