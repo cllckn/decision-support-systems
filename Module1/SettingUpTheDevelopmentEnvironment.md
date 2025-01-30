@@ -7,7 +7,8 @@
         Binary downloads:
         Scala 2.12  - kafka_2.12-3.5.0.tgz (asc, sha512)
         Scala 2.13  - kafka_2.13-3.5.0.tgz (asc, sha512)
-
+        Extract the downloaded file
+        Open a Terminal/Console to run each of the following binary files.
   ~~~bash
   cd .../kafka/bin
   sh zookeeper-server-start.sh ../config/zookeeper.properties 
@@ -23,4 +24,6 @@
   ./kafka-console-producer.sh --bootstrap-server localhost:9092 --topic --topic dss-test-topic1
   ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic --topic dss-test-topic1
   ~~~
+
+**Running .sh files on Windows can be challenging. You may need to install Git Bash.**
 
