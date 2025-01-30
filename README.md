@@ -11,9 +11,8 @@ A Decision Support System (DSS) is a computer-based tool that helps individuals 
 ## Course Content
 The course will cover the following topics:
 ### Module 1: Introduction to Expert Systems and Decision Support Systems
-* Overview of expert systems and DSS
+* Fundamentals of DSS
 * Applications of DSS in various domains (e.g., healthcare, finance, logistics)
-* Components of a DSS: data management, model management, user interface
 * Introduction to the tools: Python, Node.js, Kafka, jQuery
 
 ### Module 2: Data Processing and Communication
@@ -46,12 +45,7 @@ The course will cover the following topics:
 * Basics of ANN and their role in decision-making
 * Building a simple ANN using Python (TensorFlow/Keras)
 
-### Module 6: Fuzzy Logic for Decision Support
-* Introduction to fuzzy logic and its applications in DSS
-* Fuzzy sets and membership functions
-* Building a simple fuzzy logic system in Python
-
-### Module 7: Integrating Components into a DSS
+### Module 6: Integrating Components into a DSS
 * Combining data processing, machine learning, and visualization
 * Case studies: Building a DSS for a real-world problem (e.g., healthcare diagnostics, financial forecasting)
 * Best practices for deploying and maintaining DSS
@@ -66,6 +60,7 @@ The course will cover the following topics:
     Communication: All course-related communication will be done via the university’s learning management system (LMS) or instructor’s e-mail. Check your university email regularly for updates and announcements.
 
 ### Tools:
+    Python
     PyCharm (https://www.jetbrains.com/pycharm/download)
     Apache Kafka (https://kafka.apache.org/downloads)
     IntelliJ IDEA Ultimate  (https://www.jetbrains.com/idea/download)
