@@ -139,3 +139,6 @@ Key Aspects of Kafka in DSS
 [Apache Kafka](consumer1.py)
 
 
+### Exercises
+[Exercise 1](Exercises.md)
+
