@@ -136,7 +136,7 @@ Key Aspects of Kafka in DSS
 ~~~ 
 
 ### Code Examples
-[Apache Kafka](consumer1.py)
+[Apache Kafka Producer](producer1.py) [Apache Kafka Consumer](consumer1.py)
 
 
 ### Exercises
