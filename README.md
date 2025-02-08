@@ -23,18 +23,21 @@ The course will cover the following topics:
 * Introduction to Kafka and its role in DSS
 * Setting up Kafka producers and consumers
 * Integrating Kafka with Python
+* Hands-on exercises
 
 ### Module 3: Building Web Services with Node.js
 * Introduction to Node.js and Express.js
 * Creating RESTful APIs for DSS
 * Integrating Python-based models with Node.js APIs
 * Handling asynchronous operations
+* Hands-on exercises
 
 ### Module 4: Visualization and User Interface
 * jQuery for Interactive Visualizations:
 * Basics of jQuery and DOM manipulation
 * Integrating charts and graphs using libraries like Chart.js
 * Building a user-friendly interface for DSS
+* Hands-on exercises
 
 ### Module 5: Machine Learning for Decision Support
 * Introduction to machine learning in DSS
@@ -44,11 +47,13 @@ The course will cover the following topics:
 * Artificial Neural Networks (ANN):
 * Basics of ANN and their role in decision-making
 * Building a simple ANN using Python (TensorFlow/Keras)
+* Hands-on exercises
 
 ### Module 6: Integrating Components into a DSS
 * Combining data processing, machine learning, and visualization
 * Case studies: Building a DSS for a real-world problem (e.g., healthcare diagnostics, financial forecasting)
 * Best practices for deploying and maintaining DSS
+* Hands-on exercises
 
 ### Evaluation Method
 
