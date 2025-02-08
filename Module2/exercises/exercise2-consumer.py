@@ -9,6 +9,7 @@ kafka_config = {
     'auto.offset.reset': 'latest'
 }
 
+
 # Consumer
 
 def consume_employee_data():
@@ -23,9 +24,9 @@ def consume_employee_data():
             if msg.error():
                 raise KafkaException(msg.error())
 
-            #print(f"Received: key={msg.key()}, value={msg.value().decode('utf-8')}") #the byte object should be decoded using the UTF-8 encoding (a human-readable string.)
-            print(f"Consumed: key={msg.key()}, value={msg.value().decode('utf-8')}")
-    except KeyboardInterrupt:
+            print(
+                f"Received: key={msg.key().decode('utf-8')}, value={msg.value().decode('utf-8')}")  # the byte object should be decoded using the UTF-8 encoding (a human-readable string.)
+    except KeyboardInterrupt:  # Catch Ctrl+C exception
         print("Consumer stopped.")
     finally:
         consumer.close()

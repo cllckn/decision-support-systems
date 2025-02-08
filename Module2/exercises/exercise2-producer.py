@@ -20,12 +20,13 @@ def delivery_report(err, msg):
 
 def produce_employee_data():
     producer = Producer({'bootstrap.servers': kafka_config['bootstrap.servers']})
-    df = pd.read_csv("../../../dataset/Employee.csv")
+    df = pd.read_csv("../../../../dataset/Employee.csv")
 
-    for _, row in df.iterrows():
+    for df_index, row in df.iterrows():
         employee_data = row.to_json()
-        producer.produce(topic, key=str(row['Age']), value=employee_data, callback=delivery_report)
-        producer.flush()
+        producer.produce(topic, key=str(df_index), value=employee_data, callback=delivery_report)
+    producer.flush() # If real-time message delivery is crucial, keep flush() inside the loop.
+    # producer.flush() # If performance matters and a small delay is acceptable, move flush() outside the loop.
     print("All employee records sent successfully!")
 
 
