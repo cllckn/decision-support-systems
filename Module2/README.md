@@ -9,7 +9,7 @@ By the end of this module, students will be able to:
 
 ---
 
-## Lesson 1: Data Manipulation with Python
+## Part 1: Data Manipulation with Python
 ### Topics Covered
 - Introduction to `pandas` and `numpy` for data handling.
 - Loading and exploring datasets.
@@ -36,7 +36,7 @@ pip install pandas
 ~~~
 
 #### Code Examples
-[pandas](pandas-fundamentals.py)
+[pandas](part1/pandas-fundamentals.py)
 
 
 ### JSON standard
@@ -90,7 +90,7 @@ In JSON, elements refer to key-value pairs inside an object. Each student record
 
 
 #### Code Examples
-[json](json-standard.py)
+[json](part1/json-standard.py)
 
 
 
@@ -112,9 +112,9 @@ pip install numpy
 ~~~
 
 ### Code Examples
-[numpy](numpy-fundamentals.py)
+[numpy](part1/numpy-fundamentals.py)
 
-## Lesson 2: Introduction to Kafka and its Role in DSS
+## Part 2: Introduction to Kafka and its Role in DSS
 ### Topics Covered
 - What is Kafka and why is it used?
 - Kafka’s architecture: Producers, Topics, Brokers, Consumers.
@@ -131,14 +131,18 @@ Key Aspects of Kafka in DSS
 - **Data Integration:** Acts as a central hub for integrating various data sources, including databases, IoT devices, and enterprise applications.  
 - **Event-Driven Architecture:** Enables DSS applications to react dynamically to incoming data, improving responsiveness and automation.  
 
+[Apache Kafka](dss-module2-apache-kafka.pdf)
+
 ~~~bash
  pip install confluent-kafka
 ~~~ 
 
 ### Code Examples
-[Apache Kafka Producer](producer1.py) [Apache Kafka Consumer](consumer1.py)
+[pandas](part1/pandas-fundamentals.py)
+[numpy](part1/numpy-fundamentals.py)
+[Apache Kafka](part2/consumer1.py)
 
 
 ### Exercises
-[Exercise 1](Exercises.md)
+[Exercises](exercises/exercises.md)
 
