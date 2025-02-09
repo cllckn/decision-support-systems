@@ -23,6 +23,7 @@ The course will cover the following topics:
 * Introduction to Kafka and its role in DSS
 * Setting up Kafka producers and consumers
 * Integrating Kafka with Python
+* Parallel Processing with Apache Kafka
 * Hands-on exercises
 
 ### Module 3: Building Web Services with Node.js
