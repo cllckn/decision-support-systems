@@ -22,14 +22,16 @@ Using pandas, perform the following operations:
 ### **Additional Challenges (Optional)**
 - Visualize the age distribution using a histogram.
 
+
+
 ---
 
 ## **Hands-on Exercise 2: Kafka Integration with Employee Data**
 
-In this exercise, you will integrate Apache Kafka to stream employee data. You will create a **Kafka Producer** to send employee records and a **Kafka Consumer** to receive and display the data.  
+In this exercise, you will integrate Apache Kafka to stream employee data. You will develop a **Kafka Producer** to send employee records and a **Kafka Consumer** to receive and display the data.  
 
 
-### **Task 1: Set Up Kafka and Create a Topic**  
+### **Task 1: Set Up Kafka and Define a Topic**  
 1. Install and run Kafka on your local machine or use a cloud Kafka service.  
 2. Form a Kafka topic named **"dss-module2-exercise"**.  
 
@@ -55,10 +57,11 @@ In this exercise, you will integrate Apache Kafka to stream employee data. You w
 
 
 
+
 ---
 
 
-# **Hands-on Exercise 3: Kafka Data Processing with Employee Records**  
+## **Hands-on Exercise 3: Kafka Data Processing with Employee Records**  
 
 For this hands-on activity, you can extend the exercise2-consumer.py and exercise2-producer.py files located in the exercises/exercise2 folder.
 
@@ -67,12 +70,12 @@ You will modify the **Kafka Producer** to send employee records
 and the **Kafka Consumer** to process the data before displaying or storing it.  
 
 
-## **Task 1: Set Up Kafka and Define a Topic**  
+### **Task 1: Set Up Kafka and Define a Topic**  
 1. Ensure Kafka is installed and running on your local machine.  
 2. If you don't have one, define a Kafka topic named **"dss-module2-processing"**.  
 
 
-## **Task 2: Design the Kafka Producer**  
+### **Task 2: Design the Kafka Producer**  
 1. Load the **Employee.csv** dataset using the `pandas` library.  
 2. Convert each employee record into a **JSON object**.  
 3. Send the JSON data to the Kafka topic **"dss-module2-processing"**, one record at a time, with a 2-second interval between each message.
@@ -80,12 +83,12 @@ and the **Kafka Consumer** to process the data before displaying or storing it.
 5. Implement a **callback function** to verify successful message delivery.  
 
 
-## **Task 3: Implement the Kafka Consumer with Data Processing**  
+### **Task 3: Implement the Kafka Consumer with Data Processing**  
 1. Consume records from the **"dss-module2-processing"** topic. 
 2. Process each record individually before forwarding the transformed data. 
 
 
-### Data Cleaning  
+#### Data Cleaning  
 - **Standardize categorical fields** to ensure consistency:  
   - `Education` → Convert to lowercase (e.g., `"Bachelor's"` → `"bachelor's"`).  
   - `Gender` → Convert to lowercase and capitalize the first letter (e.g., `"male"` → `"Male"`).  
@@ -94,7 +97,7 @@ and the **Kafka Consumer** to process the data before displaying or storing it.
 
 ---
 
-### Feature Engineering  
+#### Feature Engineering  
 - **Calculate a new feature: `YearsSinceJoining`**  
   - Compute `YearsSinceJoining = CurrentYear - JoiningYear`.  
   - Example: If `CurrentYear = 2025` and `JoiningYear = 2019`, then:  
@@ -104,7 +107,7 @@ and the **Kafka Consumer** to process the data before displaying or storing it.
 
 ---
 
-### Encoding for ML Models  
+#### Encoding for ML Models  
 - Convert categorical values into numeric representations for ML models:  
   - **Education Mapping**:  
     ```json
@@ -126,7 +129,7 @@ and the **Kafka Consumer** to process the data before displaying or storing it.
 
 ---
 
-### Business Logic / Risk Flagging  
+#### Business Logic / Risk Flagging  
 - **Identify high-risk employees** based on specific conditions:  
   - An employee is at **high risk of leaving** if:  
     - **ExperienceInCurrentDomain < 2**  
@@ -142,14 +145,14 @@ and the **Kafka Consumer** to process the data before displaying or storing it.
 
 ---
 
-### Data Validation & Error Handling  
+#### Data Validation & Error Handling  
 - **Check for missing or incorrect values:**  
   - Ensure required fields (`Age`, `JoiningYear`, `ExperienceInCurrentDomain`) are present.  
   - Verify that numerical values (`Age`, `YearsSinceJoining`, `ExperienceInCurrentDomain`) are **within a valid range**.  
 - **Validation rules:**  
   - `Age` should be **between 18 and 65**.  
   - `ExperienceInCurrentDomain` should **not exceed `YearsSinceJoining`**.  
-- If a record is invalid, **log an error and skip processing** instead of crashing the pipeline.  
+  - If a record is invalid, **log an error and skip processing** instead of crashing the pipeline.  
 
 ---
 
@@ -171,18 +174,17 @@ After processing, the transformed employee data should be displayed in **JSON fo
 4. Implement error handling for invalid records (e.g., missing fields, incorrect data types).  
 
 
-## **Task 4: Extend the Consumer to Store Processed Data (Optional Bonus Challenge)**  
+### **Task 4: Extend the Consumer to Store Processed Data (Optional Bonus Challenge)**  
 1. Store processed data into a **PostgreSQL/MySQL database**.  
 2. Save only high-risk employees for further analysis.
+
 
 ---
 
 
+## **Exercise 4: Parallel Processing with Apache Kafka**
 
-
-# **Exercise 4: Parallel Processing with Apache Kafka**
-
-## **Objective**
+### **Objective**
 In this exercise, you will:
 1. **Set up Kafka topics** with multiple partitions for parallel processing.
 2. **Implement a Kafka producer** that reads `Employee.csv` line by line and sends records to a Kafka topic.
@@ -192,8 +194,7 @@ In this exercise, you will:
 
 ---
 
-## **Setup Instructions**
-### **Step 1: Define Required Kafka Topics**
+### **Setting Up: Define Required Kafka Topics**
 Before running the producer and consumers, ensure the topics exist.
 
 1. Define a Kafka topic **"dss-employee-parallel-processing"** with **2 partitions**.
