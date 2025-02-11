@@ -174,3 +174,69 @@ After processing, the transformed employee data should be displayed in **JSON fo
 ## **Task 4: Extend the Consumer to Store Processed Data (Optional Bonus Challenge)**  
 1. Store processed data into a **PostgreSQL/MySQL database**.  
 2. Save only high-risk employees for further analysis.
+
+---
+
+
+
+
+# **Exercise 4: Parallel Processing with Apache Kafka**
+
+## **Objective**
+In this exercise, you will:
+1. **Set up Kafka topics** with multiple partitions for parallel processing.
+2. **Implement a Kafka producer** that reads `Employee.csv` line by line and sends records to a Kafka topic.
+3. **Define a consumer group** with **two consumers**, each processing messages in parallel.
+4. **Filter messages** based on `Gender` and send valid records to another topic.
+5. **Design a separate consumer** to process messages from the filtered topic.
+
+---
+
+## **Setup Instructions**
+### **Step 1: Define Required Kafka Topics**
+Before running the producer and consumers, ensure the topics exist.
+
+1. Define a Kafka topic **"dss-employee-parallel-processing"** with **2 partitions**.
+2. Define another topic **"dss-employee-processed"** 
+
+
+### **Task 1: Implement a Kafka Producer**
+- Read `Employee.csv` **line by line**.
+- Convert each row into JSON format.
+- Publish each message to the **"dss-employee-parallel-processing"** topic.
+
+
+### **Task 2: Implement Parallel Kafka Consumers**
+- Implement a **consumer group** with **two consumers**.
+- Each consumer should:
+  - Subscribe to **"dss-employee-parallel-processing"**.
+  - Process messages in **parallel**.
+  - Extract fields and print output to the console.
+
+
+### **Task 3: Filter Records and Publish to Another Topic**
+- Each consumer should **filter messages** based on the `Gender` field:
+  - If `Gender == 1`, publish the message to **"dss-employee-processed"**.
+- Ensure the **"dss-employee-processed"** topic exists before publishing.
+
+
+### **Task 4: Implement a New Consumer for Processed Data**
+- Design a **separate consumer** (with a **different `group.id`**) that:
+  - Subscribes to **"dss-employee-processed"**.
+  - Reads and prints all processed records to the console.
+
+
+### **Expected Outcome**
+- Employees' data is processed **in parallel** across multiple consumers.
+- Only records with `Gender == 1` are forwarded to **"dss-employee-processed"**.
+- The second consumer **listens to filtered messages** and prints them.
+
+---
+
+
+### **Additional Challenges (Optional)**
+- Develop a **logging consumer** that:
+  - Subscribes to **"dss-employee-parallel-processing"**.
+  - Receives **all messages** from the topic.
+  - Appends each record to a **CSV file** along with a timestamp.
+  - Ensure the consumer runs in **append mode**, continuously logging incoming messages.
