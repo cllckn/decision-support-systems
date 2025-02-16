@@ -10,6 +10,7 @@ A Decision Support System (DSS) is a computer-based tool that helps individuals 
 
 ## Course Content
 The course will cover the following topics:
+
 ### Module 1: Introduction to Expert Knowledge and Decision Support Systems
 * Fundamentals of DSS
 * Applications of DSS in various domains
@@ -17,27 +18,31 @@ The course will cover the following topics:
 
 ### Module 2: Data Processing and Communication
 * Python for Data Processing:
-* Data manipulation with Python
-* Data cleaning and preprocessing
+  * Data manipulation with Python
+  * Data cleaning and preprocessing
 * Kafka for Real-Time Data Streaming:
-* Introduction to Kafka and its role in DSS
-* Setting up Kafka producers and consumers
+  * Introduction to Kafka and its role in DSS
+  * Setting up Kafka producers and consumers
 * Integrating Kafka with Python
+* Essentials of Data Processing Paradigms
 * Parallel Processing with Apache Kafka
 * Hands-on exercises
 
-### Module 3: Building Web Services with Node.js
-* Introduction to Node.js and Express.js
-* Creating RESTful APIs for DSS
-* Integrating Python-based models with Node.js APIs
-* Handling asynchronous operations
+### Module 3: Developing Web Applications And Web Services with Node.js
+* Web Application Architecture
+* Introduction to Node.js
+* Developing web applications using HTML,CSS, JS and Node.js
+* Developing RESTful APIs for DSS
+* Providing database support for the modules 
+* Integrating Python-based models with Node.js APIs using Apache Kafka
 * Hands-on exercises
 
 ### Module 4: Visualization and User Interface
-* jQuery for Interactive Visualizations:
 * Basics of jQuery and DOM manipulation
-* Integrating charts and graphs using libraries like Chart.js
-* Building a user-friendly interface for DSS
+* jQuery for Interactive Visualizations
+* Designing forms to provide user interactions
+* Integrating visualization components
+* Designing user interfaces for DSS
 * Hands-on exercises
 
 ### Module 5: Machine Learning for Decision Support
@@ -68,11 +73,11 @@ Students will be evaluated based on the following components:
 
 ## Assignments and Exams Schedule  
 
-| **Assignment**   | **Release Date** | **Due Date**  |
-|-----------------|-----------------|--------------|
-| Assignment 1   | TBA              | Week 6       |
-| Assignment 2   | TBA              | Week 10      |
-| Final Project  | TBA              | Week 14      |
+| **Assignment**   | **Oral Exam Date**     | **Due Date**  |
+|-----------------|------------------------|--------------|
+| Assignment 1   | 27.02.2025 10:30-12:20 | Week 6       |
+| Assignment 2   | TBA                    | Week 10      |
+| Final Project  | TBA                    | Week 14      |
 
 
 ### Course Policies
