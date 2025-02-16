@@ -28,8 +28,8 @@ The course will cover the following topics:
 * Parallel Processing with Apache Kafka
 * Hands-on exercises
 
-### Module 3: Developing Web Applications And Web Services with Node.js
-* Web Application Architecture
+### Module 3: Web Applications And Web Services
+* Fundamentals of web applications and web services
 * Introduction to Node.js
 * Developing web applications using HTML,CSS, JS and Node.js
 * Developing RESTful APIs for DSS
