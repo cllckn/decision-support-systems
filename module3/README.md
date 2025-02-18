@@ -23,7 +23,7 @@ A URL typically consists of:
 A URL acts like an address for finding and retrieving web resources, allowing users to navigate the internet efficiently.  
 
 ### Client Server Architecture
-![Client Server Architecture](./resources/figures/client-server.png)
+![Client Server Architecture](../resources/figures/client-server.png)
 
 ### Three-tier Web Architecture
 
@@ -58,15 +58,15 @@ Diagram Representation of Three-Tier Web Architecture
 ```
 
 ### Web Application Architecture - Synchronous Communication
-![Web Application Architecture](./resources/figures/web-application-architecture-synchronous.png)
+![Web Application Architecture](../resources/figures/web-application-architecture-synchronous.png)
 
 
 ### Web Application Architecture - Asynchronous Communication
-![Web Application Architecture](./resources/figures/web-application-architecture-asynchronous.png)
+![Web Application Architecture](../resources/figures/web-application-architecture-asynchronous.png)
 
 
 ### Scalable Web Application Architecture 
-![Web Application Architecture](./resources/figures/scalable-web-architecture.png)
+![Web Application Architecture](../resources/figures/scalable-web-architecture.png)
 
 
 ### Service-Oriented Architecture (SOA)
@@ -105,7 +105,7 @@ Each service is responsible for a specific business capability and can be develo
 - **Resilience**: Failure in one service does not necessarily affect the entire system.
 - **Technology Diversity**: Different services can use different technologies and programming languages.
 
-![Web Application Architecture](./resources/figures/micro-service-architecture.png)
+![Web Application Architecture](../resources/figures/micro-service-architecture.png)
 
 ## Part 2: Introduction to Node.js
 
@@ -601,5 +601,4 @@ Test api
 
 
 
-### Code Examples
-[batch procuder](part3/employee-data-batch-producer.py)
+
