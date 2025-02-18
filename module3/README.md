@@ -23,7 +23,7 @@ A URL typically consists of:
 A URL acts like an address for finding and retrieving web resources, allowing users to navigate the internet efficiently.  
 
 ### Client Server Architecture
-![Client Server Architecture](../resources/figures/client-server.png)
+![Client Server Architecture](./resources/figures/client-server.png)
 
 ### Three-tier Web Architecture
 
