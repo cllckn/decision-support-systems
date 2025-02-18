@@ -58,15 +58,15 @@ Diagram Representation of Three-Tier Web Architecture
 ```
 
 ### Web Application Architecture - Synchronous Communication
-![Web Application Architecture](../resources/figures/web-application-architecture-synchronous.png)
+![Web Application Architecture](./resources/figures/web-application-architecture-synchronous.png)
 
 
 ### Web Application Architecture - Asynchronous Communication
-![Web Application Architecture](../resources/figures/web-application-architecture-asynchronous.png)
+![Web Application Architecture](./resources/figures/web-application-architecture-asynchronous.png)
 
 
 ### Scalable Web Application Architecture 
-![Web Application Architecture](../resources/figures/scalable-web-architecture.png)
+![Web Application Architecture](./resources/figures/scalable-web-architecture.png)
 
 
 ### Service-Oriented Architecture (SOA)
@@ -105,7 +105,7 @@ Each service is responsible for a specific business capability and can be develo
 - **Resilience**: Failure in one service does not necessarily affect the entire system.
 - **Technology Diversity**: Different services can use different technologies and programming languages.
 
-![Web Application Architecture](../resources/figures/micro-service-architecture.png)
+![Web Application Architecture](./resources/figures/micro-service-architecture.png)
 
 ## Part 2: Introduction to Node.js
 
