@@ -1,4 +1,4 @@
-3: Web Applications And Web Services
+# Module 3: Web Applications And Web Services
 
 
 ## Part 1: Fundamentals Of Web Applications And Web Services
@@ -109,6 +109,8 @@ Each service is responsible for a specific business capability and can be develo
 
 ## Part 2: Introduction to Node.js
 
+### Node.js
+
 Node.js is an open-source, cross-platform runtime environment that allows you to run JavaScript code on the server side. 
 It uses the V8 JavaScript engine, which is also used by Google Chrome, to execute code outside of a web browser.
 
@@ -129,8 +131,8 @@ Use Cases:
 **For the details of Node.js, refer to https://www.w3schools.com/nodejs/**
 
 ### NPM (Node Package Manager) 
-    it is a package manager for JavaScript, and it is the default package manager for Node.js. 
-    It allows developers to install, share, and manage dependencies (libraries and tools) for their projects.
+it is a package manager for JavaScript, and it is the default package manager for Node.js. 
+It allows developers to install, share, and manage dependencies (libraries and tools) for their projects.
 
 * Key Features of NPM:
   - Package Management: Easily install and manage third-party libraries and tools. 
@@ -145,11 +147,11 @@ Use Cases:
 
 ### Node.js & npm Installation
 
-      https://github.com/cllckn/software-testing/blob/main/module1/setting-up-the-development-environment.md -> NodeJS
+![Look at Node.js installation](https://github.com/cllckn/software-testing/blob/main/module1/setting-up-the-development-environment.md) -> NodeJS
 
-* Initialize a Node.js project
+* Initialize a new Node.js project
 
-      https://github.com/cllckn/software-testing/blob/main/module1/setting-up-the-development-environment.md -> NodeJS
+![Look at Node.js initialization](https://github.com/cllckn/software-testing/blob/main/module1/setting-up-the-development-environment.md) -> NodeJS
 
 ### Traditional synchronous operation
 
@@ -633,10 +635,141 @@ curl -X DELETE http://localhost:3000/api/products/1
 
 ## Part 5: Providing database support for the modules
 
+* Setting up PostgreSQL
+```sql
+CREATE DATABASE dss;
+---------------------------
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    price NUMERIC(10, 2) NOT NULL
+);
 
+```
 
+* A simple REST API with CRUD operations
+```javascript
+//npm install express pg
+// Import necessary modules
 
-## Part 6: Integrating Python-based models with Node.js APIs using Apache Kafka
+const express = require("express");
+const { Pool } = require("pg"); // PostgreSQL client
+
+const app = express();
+
+// Initialize a new PostgreSQL connection pool
+const pool = new Pool({
+    connectionString: "postgresql://postgres:LecturePassword@localhost:5432/dss",
+});
+
+// Middleware to parse JSON request bodies
+app.use(express.json());
+
+// ------------------------ GET all products ------------------------
+app.get("/api/products", async (req, res) => {
+    try {
+        // Fetch all products from the database
+        const result = await pool.query("SELECT * FROM products ORDER BY id ASC");
+
+        // Respond with JSON data
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: "Database error" }); // Handle errors
+    }
+});
+
+// ------------------------ GET a single product by ID ------------------------
+app.get("/api/products/:id", async (req, res) => {
+    try {
+        const { id } = req.params; // Extract product ID from URL
+
+        // Query database for the given product ID
+        const result = await pool.query("SELECT * FROM products WHERE id = $1", [id]);
+
+        if (result.rows.length === 0)
+            return res.status(404).json({ error: "Product not found" });
+
+        // Respond with the found product
+        res.json(result.rows[0]);
+    } catch (err) {
+        res.status(500).json({ error: "Database error" });
+    }
+});
+
+// ------------------------ POST - Add a new product ------------------------
+app.post("/api/products", async (req, res) => {
+    try {
+        const { name, price } = req.body; // Extract product details from request body
+
+        // Validate input (ensure name and price are provided)
+        if (!name || !price)
+            return res.status(400).json({ error: "Invalid input" });
+
+        // Insert new product into the database
+        const result = await pool.query(         //executes the query asynchronously using the PostgreSQL connection pool.
+            "INSERT INTO products (name, price) VALUES ($1, $2) RETURNING *", //$1, $2 are placeholders for parameterized queries, preventing SQL injection. // RETURNING * makes PostgreSQL return the newly inserted row.
+            [name, price] //name, price] is an array of values that replaces $1 and $2 in the query.
+        );
+
+        // Respond with the newly added product
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        res.status(500).json({ error: "Database error" });
+    }
+});
+
+// ------------------------ PUT - Update a product ------------------------
+app.put("/api/products/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, price } = req.body;
+
+        // Update the product in the database if it exists
+        const result = await pool.query(
+            "UPDATE products SET name = COALESCE($1, name), price = COALESCE($2, price) WHERE id = $3 RETURNING *",
+            [name, price, id]   //COALESCE($1, name) ensures that if $1 (the provided value for name) is NULL or not given, the existing name value in the database remains unchanged.
+        );
+
+        if (result.rows.length === 0)
+            return res.status(404).json({ error: "Product not found" });
+
+        // Respond with the updated product
+        res.json(result.rows[0]);
+    } catch (err) {
+        res.status(500).json({ error: "Database error" });
+    }
+});
+
+// ------------------------ DELETE - Remove a product ------------------------
+app.delete("/api/products/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Delete the product from the database
+        const result = await pool.query("DELETE FROM products WHERE id = $1 RETURNING *", [id]);
+
+        if (result.rows.length === 0)
+            return res.status(404).json({ error: "Product not found" });
+
+        // Respond with a success message
+        res.json({ message: "Product deleted" });
+    } catch (err) {
+        res.status(500).json({ error: "Database error" });
+    }
+});
+
+// ------------------------ Start server ------------------------
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+
+```
+
+---
+## **Hands-on Exercise4**
+
+---
+
+## Part 6:Integrating Python-based models with Node.js APIs using Apache Kafka
 
 
 
