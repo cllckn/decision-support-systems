@@ -147,11 +147,11 @@ It allows developers to install, share, and manage dependencies (libraries and t
 
 ### Node.js & npm Installation
 
-![Look at Node.js installation](https://github.com/cllckn/software-testing/blob/main/module1/setting-up-the-development-environment.md) -> NodeJS
+[Take a look at this web address](https://github.com/cllckn/software-testing/blob/main/module1/setting-up-the-development-environment.md) -> NodeJS
 
 * Initialize a new Node.js project
 
-![Look at Node.js initialization](https://github.com/cllckn/software-testing/blob/main/module1/setting-up-the-development-environment.md) -> NodeJS
+[Take a look at this web address](https://github.com/cllckn/software-testing/blob/main/module1/setting-up-the-development-environment.md) -> NodeJS
 
 ### Traditional synchronous operation
 
