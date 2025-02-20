@@ -1,4 +1,4 @@
-# Module 3: Web Applications And Web Services
+3: Web Applications And Web Services
 
 
 ## Part 1: Fundamentals Of Web Applications And Web Services
@@ -143,19 +143,13 @@ Use Cases:
   - npm update: Update all installed packages to their latest versions. 
   - npm run: Run a script defined in the package.json file.
 
-### Node.js & npm Installation 
-    (https://nodejs.org/en/download) (IntelliJ IDEA -> Preferences -> Node.js )
+### Node.js & npm Installation
+
+      https://github.com/cllckn/software-testing/blob/main/module1/setting-up-the-development-environment.md -> NodeJS
 
 * Initialize a Node.js project
-    - mkdir hello-world-app
-    - cd hello-world-app
-    - npm init
 
-* Make an hello-world.js file and write the following code:
-    - console.log('Hello world.');
-
-* Run the app:
-    - node hello-world.js
+      https://github.com/cllckn/software-testing/blob/main/module1/setting-up-the-development-environment.md -> NodeJS
 
 ### Traditional synchronous operation
 
@@ -323,11 +317,6 @@ console.log("\nUpdated JSON file saved.");
 ```
 
 
-
-
-
-
-
 ### Process Employee.csv 
 Download the **Employee.csv** dataset from the following address and update csvFilePath properly
    [Employee Dataset](https://www.kaggle.com/datasets/tawfikelmetwally/employee-dataset)
@@ -400,7 +389,7 @@ function performJSONOperations(data) {
 
 ```
 ---
-## **Hands-on Exercise1: Processing Student List in Node.js**
+## **Hands-on Exercise1**
 
 ---
 
@@ -470,7 +459,6 @@ Hello World !
 
 ---
 
-
 ## Part 4: Developing RESTful APIs for DSS
 
 ### **1. What is a RESTful API?**
@@ -510,7 +498,7 @@ A resource could be a user, a product, or a function to control a heating system
 - **POST /heating-system/off**: Turn off the heating system.
 - **PUT /heating-system/temperature**: Set the desired temperature of the heating system.
 
-
+### A simple REST API 
 ```javascript
 const express = require("express");
 const app = express();
@@ -566,37 +554,89 @@ app.delete("/api/products/:id", (req, res) => {
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`)); // Start the server on port 3000
 ```
-Test api
-    
-    GET http://localhost:3000/api/products
-    GET http://localhost:3000/api/products/1
-    POST http://localhost:3000/api/products
+
+### Endpoints of the developed API
+
+        GET http://localhost:3000/api/products
+
+        GET http://localhost:3000/api/products/1
+
+        POST http://localhost:3000/api/products
         Content-Type: application/json
         {
         "name": "Tablet",
         "price": 299.99
         }
-    PUT http://localhost:3000/api/products/2
+
+        PUT http://localhost:3000/api/products/2
         Content-Type: application/json
-        
         {
         "name": "Smartphone",
         "price": 550.00
         }
-    DELETE http://localhost:3000/api/products/1
+    
+        DELETE http://localhost:3000/api/products/1
+
+
+### Testing REST api using cURL and http client
+
+    curl --version
+    if not installed -> Download cURL from: https://curl.se/windows/
+
+
+```sh
+# Retrieves a list of all products from the database.
+
+curl -X GET http://localhost:3000/api/products
+
+---
+
+# Fetches details of a specific product using its ID.
+
+curl -X GET http://localhost:3000/api/products/1
+
+---
+
+# Adds a new product to the database. The request body must contain name and price in JSON format.
+
+curl -X POST http://localhost:3000/api/products \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Tablet", "price": 299.99}'
+
+
+---
+
+# Updates the details of an existing product using its ID. Any missing fields will retain their previous values.
+
+curl -X PUT http://localhost:3000/api/products/1 \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Updated Laptop", "price": 1099.99}'
+
+---
+
+# Deletes a product from the database by specifying its ID.
+
+curl -X DELETE http://localhost:3000/api/products/1
+
+
+```
 
 
 
 
+---
+## **Hands-on Exercise3**
+
+---
 
 
-## Part 5:Providing database support for the modules
+
+## Part 5: Providing database support for the modules
 
 
 
 
-
-## Part 6:Integrating Python-based models with Node.js APIs using Apache Kafka
+## Part 6: Integrating Python-based models with Node.js APIs using Apache Kafka
 
 
 
