@@ -1,6 +1,9 @@
 # Module 3: Web Applications And Web Services
 
 
+
+
+
 ## Part 1: Fundamentals Of Web Applications And Web Services
 
 There are several services on the Internet, and the **Web (World Wide Web)** is one of the most widely used. The web consists of websites, web pages, and online resources that people can access using a web browser.
@@ -106,6 +109,11 @@ Each service is responsible for a specific business capability and can be develo
 - **Technology Diversity**: Different services can use different technologies and programming languages.
 
 ![Web Application Architecture](../resources/figures/micro-service-architecture.png)
+
+
+
+
+
 
 ## Part 2: Introduction to Node.js
 
@@ -216,9 +224,6 @@ console.log('End');
 4. fs.readFile is non-blocking, so the operation starts, but the callback executes later.
 5. "End" logs next (synchronous).
 6. The event loop handles setTimeout, setTimeout, and fs.readFile callbacks after the main script execution is completed.
-
-
-
 
 #### Node.js Event Loop Demonstration
 
@@ -395,9 +400,15 @@ function performJSONOperations(data) {
 
 ---
 
+
+
+
+
+
+
 ## Part 3: Developing web applications using HTML,CSS, JS and Node.js
 
-* A simple web server
+A simple web server
 ```javascript
 /**
  * This is a straightforward web server built with Express.js.
@@ -461,7 +472,176 @@ Hello World !
 
 ---
 
-## Part 4: Developing RESTful APIs for DSS
+
+
+
+
+
+## Part 4: jQuery and Basic Form Operations for User Interaction
+
+### **What is jQuery?**
+jQuery is a fast, small, and feature-rich JavaScript library designed to simplify:
+- HTML DOM traversal and manipulation
+- Event handling
+- Animations
+- AJAX interactions
+
+### **Why Use jQuery?**
+- **Simplifies JavaScript code** – Reduces the need for writing long vanilla JavaScript functions.
+- **Cross-browser compatibility** – Works across different browsers without issues.
+- **Powerful event handling** – Allows easy manipulation of events like clicks, keypresses, and form submissions.
+- **AJAX support** – Enables smooth data loading without refreshing the page.
+
+### **Adding jQuery to a Web Page**
+You can include jQuery in your project via a **CDN**:
+
+`<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>`
+
+or download and reference it locally:
+
+`<script src="js/jquery.min.js"></script>`
+
+---
+
+### **2. Basic jQuery Syntax**
+
+jQuery follows a simple syntax:
+
+`$(selector).action();`
+
+- **`$`** – The jQuery function.
+- **`selector`** – Selects an HTML element (e.g., `#id`, `.class`, `tag`).
+- **`action()`** – The operation to perform (e.g., `hide()`, `show()`, `click()`).
+
+### **Example: Hiding a Paragraph on Click**
+1. Add a button and a paragraph in your HTML.
+2. Use jQuery to hide the paragraph when the button is clicked.
+
+```javascript
+<button id="hide-btn">Hide</button>
+<p id="text">This is a paragraph.</p>
+
+<script>
+    $(document).ready(function(){
+        $("#hide-btn").click(function(){
+            $("#text").hide();
+        })
+    });
+</script>
+
+```
+
+
+### **3.1 Handling Form Input Fields**
+
+#### **Selecting Form Elements**
+You can get and set values in form fields using `.val()`:
+
+1. Form an input field and a button.
+2. When the button is clicked, retrieve the value entered in the input field.
+3. Display the value dynamically.
+
+```javascript
+<input type="text" id="name" placeholder="Enter your name">
+<button id="get-name">Get Name</button>
+<p id="output"></p>
+
+<script>
+    $(document).ready(function(){
+        $("#get-name").click(function(){
+            var name = $("#name").val();
+            $("#output").text("Hello, " + name);
+        })
+    });
+</script>
+
+```
+
+### **3.2 Form Events Handling**
+
+jQuery provides event handlers for form elements, such as:
+
+- `focus()` – When an input field is focused.
+- `blur()` – When an input field loses focus.
+- `change()` – When the value of an input field changes.
+- `submit()` – When a form is submitted.
+
+#### **Example: Form Submission Handling**
+```javascript
+<form id="user-form">
+    <input type="text" id="username" placeholder="Enter username" required>
+    <input type="password" id="password" placeholder="Enter password" required>
+    <button type="submit">Submit</button>
+</form>
+<p id="message"></p>
+
+<script>
+    $(document).ready(function(){
+        $("#user-form").submit(function(event){
+            event.preventDefault(); // Prevents page reload
+            var username = $("#username").val();
+            $("#message").text("Form submitted! Welcome, " + username);
+        });
+    });
+</script>
+
+```
+
+
+### **3.3 Enabling and Disabling Form Fields**
+Use `.prop()` to enable or disable input fields dynamically.
+
+```javascript
+<input type="text" id="email" disabled>
+<button id="enable-btn">Enable Input</button>
+
+<script>
+    $(document).ready(function(){
+        $("#enable-btn").click(function(){
+            $("#email").prop("disabled", false);
+        });
+    });
+</script>
+```
+
+### **3.4 Real-time Input Validation**
+
+Validate user input dynamically using the `.keyup()` event.
+
+```javascript
+<input type="text" id="phone" placeholder="Enter phone number">
+<p id="validation-msg"></p>
+
+<script>
+    $(document).ready(function(){
+        $("#phone").keyup(function(){
+            var input = $(this).val();
+            if (/^\d{10}$/.test(input)) {
+                $("#validation-msg").text("Valid number").css("color", "green");
+            } else {
+                $("#validation-msg").text("Invalid number").css("color", "red");
+            }
+        });
+    });
+</script>
+```
+
+
+**For the details of JQuery, refer to https://api.jquery.com/** or **https://www.w3schools.com/jquery** 
+
+
+---
+## **Hands-on Exercise3**
+
+---
+
+
+
+
+
+
+
+## Part 5: Developing RESTful APIs for DSS
 
 ### **1. What is a RESTful API?**
 
@@ -501,6 +681,8 @@ A resource could be a user, a product, or a function to control a heating system
 - **PUT /heating-system/temperature**: Set the desired temperature of the heating system.
 
 ### A simple REST API 
+
+Save the file as simple-rest-api.js
 ```javascript
 const express = require("express");
 const app = express();
@@ -513,6 +695,8 @@ let products = [
   { id: 2, name: "Phone", price: 499.99 },
 ];
 
+// Route definations
+//Routes are the connection points (addresses) in a web service where clients send requests to interact with the server.
 // GET all products
 app.get("/api/products", (req, res) => {
   res.json(products); // Respond with the list of all products
@@ -557,7 +741,7 @@ const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`)); // Start the server on port 3000
 ```
 
-### Endpoints of the developed API
+### Endpoints (Routes) of the developed API
 
         GET http://localhost:3000/api/products
 
@@ -580,7 +764,7 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`)); // Start 
         DELETE http://localhost:3000/api/products/1
 
 
-### Testing REST api using cURL and http client
+### REST Clients - Testing REST api using cURL and http client
 
     curl --version
     if not installed -> Download cURL from: https://curl.se/windows/
@@ -623,17 +807,332 @@ curl -X DELETE http://localhost:3000/api/products/1
 
 ```
 
-
-
-
 ---
-## **Hands-on Exercise3**
-
+## **Hands-on Exercise4**
 ---
 
 
 
-## Part 5: Providing database support for the modules
+## **Converting a Simple REST API into a Web Application with jQuery**
+
+
+This section explains how to convert the existing **REST API** into a **web application** by developing web pages that allow users to interact with the API using **jQuery**.
+
+The web application will provide:
+- A **product list** fetched from the API.
+- A **form to add new products**.
+- Options to **update and delete products** dynamically.
+- jQuery-based **AJAX requests** to communicate with the API.
+
+
+### **Steps to Convert the API into a Web Application**
+1. **Retain the existing REST API** as the backend.
+2. **Develop frontend web pages** to interact with the API.
+3. **Use jQuery** to fetch, display, add, update, and delete products.
+4. **Implement event handling** using jQuery to interact with the API.
+5. **Enhance user experience** with jQuery effects.
+
+
+### Step 1: Modify the API (`simple-rest-api.js`)
+We will slightly modify the existing API to serve **static HTML files** in addition to handling RESTful requests.
+
+```javascript
+
+const express = require("express");
+const path = require("path");
+const app = express();
+const cors = require("cors"); // Import CORS
+
+
+app.use(express.json()); // parse json requests
+app.use(express.static(path.join(__dirname, 'public'))); // Middleware to serve static files (HTML, CSS, JS) from the 'public' folder
+
+
+app.use(cors()); // Enable CORS for all routes
+// The browser blocks cross-origin requests unless the server explicitly allows them.
+// Cross-Origin means that the protocol, domain, or port is different between the frontend and backend.
+
+// In-memory database: JSON array for products
+let products = [
+    { id: 1, name: "Laptop", price: 999.99 },
+    { id: 2, name: "Phone", price: 499.99 },
+];
+
+// Route definations
+//Routes are the connection points (addresses) in a web service where clients send requests to interact with the server.
+// GET all products
+app.get("/api/products", (req, res) => {
+    res.json(products);
+});
+
+// GET a single product by ID
+app.get("/api/products/:id", (req, res) => {
+    const product = products.find((p) => p.id === parseInt(req.params.id));
+    if (!product) return res.status(404).json({ error: "Product not found" });
+    res.json(product);
+});
+
+// POST - Add a new product
+app.post("/api/products", (req, res) => {
+    const { name, price } = req.body;
+    if (!name || !price) return res.status(400).json({ error: "Invalid input" });
+
+    const newProduct = { id: products.length + 1, name, price };
+    products.push(newProduct);
+    res.status(201).json(newProduct);
+});
+
+// PUT - Update a product
+app.put("/api/products/:id", (req, res) => {
+    const product = products.find((p) => p.id === parseInt(req.params.id));
+    if (!product) return res.status(404).json({ error: "Product not found" });
+
+    const { name, price } = req.body;
+    product.name = name || product.name;
+    product.price = price || product.price;
+    res.json(product);
+});
+
+// DELETE - Remove a product
+app.delete("/api/products/:id", (req, res) => {
+    products = products.filter((p) => p.id !== parseInt(req.params.id));
+    res.json({ message: "Product deleted" });
+});
+
+// Start server
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+```
+
+
+### Step 2: Develop Frontend Web Pages
+Inside a folder named public/, add an index.html file. This will be the main page where users 
+can view, add, update, and delete products using jQuery.
+
+Frontend Page (public/index.html)
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        table { width: 50%; margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 10px; }
+        .error { color: red; display: none; }
+    </style>
+</head>
+<body>
+    <h2>Product List</h2>
+    <!-- Table to display products -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="product-list"></tbody> <!-- Products will be dynamically inserted here -->
+    </table>
+
+    <h2>Add Product</h2>
+    <!-- Form to add a new product -->
+    <form id="add-product-form">
+        <input type="text" id="name" placeholder="Product Name" required>
+        <input type="number" id="price" placeholder="Price" required>
+        <button type="submit">Add Product</button>
+    </form>
+    <p class="error" id="error-msg">Invalid inputtttttttt</p> <!-- Error message for validation -->
+
+    <script>
+        $(document).ready(function(){
+            // Function to load products asynchronously using AJAX (GET request)
+            function loadProducts() {
+                $.get("/api/products", function(products){
+                    $("#product-list").empty(); // Clear the existing list
+                    products.forEach(product => {
+                        $("#product-list").append(`
+                            <tr>
+                                <td>${product.id}</td>
+                                <td>${product.name}</td>
+                                <td>${product.price}</td>
+                                <td>
+                                    <button class="delete-btn" data-id="${product.id}">Delete</button>
+                                </td>
+                            </tr>
+                        `);
+                    });
+                });
+            }
+
+            // Handle form submission to add a new product (AJAX POST request)
+            $("#add-product-form").submit(function(event){
+                event.preventDefault(); // Prevent default form submission
+                var name = $("#name").val().trim(); // Get product name
+                var price = parseFloat($("#price").val().trim()); // Get product price
+
+                // Validate input: Ensure name is not empty and price is valid
+                if (!name || isNaN(price) || price <= 0) {
+                    $("#error-msg").fadeIn().delay(5000).fadeOut();
+                    return;
+                }
+
+                // Asynchronous request to add a product
+                $.post({
+                    url: "/api/products",
+                    contentType: "application/json", // Ensure JSON is sent correctly
+                    data: JSON.stringify({ name, price }),
+                    success: function(response) {
+                        loadProducts(); // Refresh product list after adding
+                        console.log("Product added:", response);
+                        $("#name").val(""); // Clear input fields
+                        $("#price").val("");
+                    },
+                    error: function(xhr) {
+                        console.error("Error:", xhr.responseText);
+                    }
+                });
+            });
+
+            // Handle product deletion (AJAX DELETE request)
+            $(document).on("click", ".delete-btn", function(){
+                var id = $(this).data("id"); // Get product ID
+
+                // Asynchronous request to delete a product
+                $.ajax({
+                    url: `/api/products/${id}`,
+                    type: "DELETE",
+                    //async: false, // Makes the request synchronous
+                    success: function(){
+                        loadProducts(); // Refresh product list after deletion
+                    }
+                });
+            });
+
+            loadProducts(); // Initial load of products (asynchronous)
+        });
+    </script>
+</body>
+</html>
+
+```
+
+---
+## **Hands-on Exercise5**
+---
+
+### Routers and Routes in Express.js
+
+A **route** in Express.js defines an endpoint that a client can access via **HTTP methods** (GET, POST, PUT, DELETE, etc.). Each route consists of:
+1. **A URL pattern** (e.g., `/api/customers/:id`)
+2. **An HTTP method** (GET, POST, etc.)
+3. **A callback function** to handle the request
+
+Example of a simple route in Express.js:
+```javascript
+app.get("/api/customers", (req, res) => {
+    res.json({ message: "List of customers" });
+});
+```
+An **Express Router** helps organize routes by grouping them into separate files. This makes the code modular, manageable, and scalable.
+
+Benefits of Using a Router
+* Code organization – Keeps server.js clean and structured.
+* Reusability – Routes can be modular and reusable across different parts of the application.
+* Easier maintenance – Adding new routes does not clutter the main server file.
+
+server-with-router.js
+```javascript
+const express = require("express");
+const cors = require("cors");
+const productRoutes = require("./routes/products"); // Import product routes
+
+const app = express();
+
+app.use(express.json()); // Parse JSON requests
+app.use(cors()); // Enable CORS for cross-origin requests
+
+// Use product routes
+app.use("/api/products", productRoutes);
+
+// Start server
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+```
+
+/routes/product.js
+```javascript
+const express = require("express");
+const router = express.Router();
+
+// In-memory database: Array to store product data
+let products = [
+    { id: 1, name: "Laptop", price: 999.99 },
+    { id: 2, name: "Phone", price: 499.99 },
+];
+
+// GET all products
+router.get("/", (req, res) => {
+    res.json(products);
+});
+
+// GET a single product by ID
+router.get("/:id", (req, res) => {
+    const product = products.find((p) => p.id === parseInt(req.params.id));
+    if (!product) return res.status(404).json({ error: "Product not found" });
+    res.json(product);
+});
+
+// POST - Add a new product
+router.post("/", (req, res) => {
+    const { name, price } = req.body;
+    if (!name || !price) return res.status(400).json({ error: "Invalid input" });
+
+    const newProduct = { id: products.length + 1, name, price };
+    products.push(newProduct);
+    res.status(201).json(newProduct);
+});
+
+// PUT - Update a product
+router.put("/:id", (req, res) => {
+    const product = products.find((p) => p.id === parseInt(req.params.id));
+    if (!product) return res.status(404).json({ error: "Product not found" });
+
+    const { name, price } = req.body;
+    product.name = name || product.name;
+    product.price = price || product.price;
+    res.json(product);
+});
+
+// DELETE - Remove a product
+router.delete("/:id", (req, res) => {
+    products = products.filter((p) => p.id !== parseInt(req.params.id));
+    res.json({ message: "Product deleted" });
+});
+
+module.exports = router;
+```
+
+#### Exercise: Extend the server-with-router.js
+
+    Combine the customer REST API from Hands-on Exercise 4 (given below) with "server-with-router.js" service by creating a separate router file for customer-related routes. 
+    Ensure that both products and customers have their own route files and are correctly integrated into the main application.
+    Once completed, test all API endpoints (both products and customers) using IntelliJ HTTP client to verify their functionality.
+    Try using Postman for testing APIs, as it provides an intuitive interface for making HTTP requests and analyzing responses.
+
+
+
+
+
+
+
+## Part 6: Providing database support for the modules
 
 * Setting up PostgreSQL
 ```sql
@@ -765,12 +1264,9 @@ app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`)
 ```
 
 ---
-## **Hands-on Exercise4**
+## **Hands-on Exercise6**
 
 ---
-
-## Part 6:Integrating Python-based models with Node.js APIs using Apache Kafka
-
 
 
 
