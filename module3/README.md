@@ -518,6 +518,7 @@ jQuery follows a simple syntax:
 2. Use jQuery to hide the paragraph when the button is clicked.
 
 ```javascript
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <button id="hide-btn">Hide</button>
 <p id="text">This is a paragraph.</p>
 
@@ -542,6 +543,7 @@ You can get and set values in form fields using `.val()`:
 3. Display the value dynamically.
 
 ```javascript
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <input type="text" id="name" placeholder="Enter your name">
 <button id="get-name">Get Name</button>
 <p id="output"></p>
@@ -568,6 +570,7 @@ jQuery provides event handlers for form elements, such as:
 
 #### **Example: Form Submission Handling**
 ```javascript
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <form id="user-form">
     <input type="text" id="username" placeholder="Enter username" required>
     <input type="password" id="password" placeholder="Enter password" required>
@@ -592,6 +595,7 @@ jQuery provides event handlers for form elements, such as:
 Use `.prop()` to enable or disable input fields dynamically.
 
 ```javascript
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <input type="text" id="email" disabled>
 <button id="enable-btn">Enable Input</button>
 
@@ -609,6 +613,7 @@ Use `.prop()` to enable or disable input fields dynamically.
 Validate user input dynamically using the `.keyup()` event.
 
 ```javascript
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <input type="text" id="phone" placeholder="Enter phone number">
 <p id="validation-msg"></p>
 
