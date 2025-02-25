@@ -137,3 +137,53 @@ Students will have a functional login system where:
 
 
 ---
+
+
+# **Hands-on Exercise 3: Extending the Web Application with jQuery**
+
+In this exercise, the web application implemented in Hands-on Exercise 2 will be extended by replacing and enhancing the login validation and dashboard functionality using **jQuery**.
+
+## **Task 3: Implement jQuery for Login Validation**
+
+### **Objective**
+Replace JavaScript-based validation with **jQuery** to improve form handling, validation, and interactivity.
+
+### **Steps**
+1. **Validate Required Fields**
+    - Use jQuery to ensure both username and password fields are not empty.
+    - Display an error message if any field is left blank.
+
+2. **Client-side Credential Check**
+    - Implement logic in jQuery to check if the entered username and password match predefined values.
+
+3. **Display Error Message for Incorrect Credentials**
+    - Show a styled error message if login credentials do not match the predefined values.
+
+4. **Redirect to Dashboard on Successful Login**
+    - If login is successful, redirect the user to the dashboard page.
+
+
+## **Task 4: Develop the Dashboard Page with jQuery**
+
+### **Objective**
+Enhance the **Dashboard Page** using **jQuery**.
+
+### **Steps**
+1. **Develop an HTML File for the Dashboard**
+    - Include a **welcome message** using jQuery.
+
+2. **Provide a Navigation Option to Return to the Login Page**
+    - Add a **button** that allows users to return to the login page.
+    - Use jQuery to handle the button click event.
+
+3. **Enhance User Experience with jQuery**
+    - Apply jQuery effects like **fade-in animation** for the welcome message.
+
+
+## **Expected Outcome**
+By completing this exercise, students will:
+- Use **jQuery** for form validation and login handling.
+- Enhance the **user experience** with jQuery-based interactivity.
+- Implement **basic page navigation** with jQuery.
+
+---
