@@ -76,8 +76,8 @@ Students will be evaluated based on the following components:
 | **Assignment**   | **Oral Exam Date**     | **Due Date**  |
 |-----------------|------------------------|--------------|
 | Assignment 1   | 27.02.2025 10:30-12:20 | Week 6       |
-| Assignment 2   | TBA                    | Week 10      |
-| Final Project  | TBA                    | Week 14      |
+| Assignment 2   | TBA                    | Week 11      |
+| Final Project  | TBA                    | During Final Exams      |
 
 
 ### Course Policies
