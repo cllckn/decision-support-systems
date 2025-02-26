@@ -61,29 +61,6 @@ The assignment will be evaluated based on two primary components:
 Project Implementation: The quality and effectiveness of the project you implement.
 
 Oral Exam Performance: Your performance during the oral exam, which will take place during class in Week 6(specific day and time to be announced later).
-## Group Work
-Students may form groups of up to two members.
-
-All group members will receive a common grade for the assignment.
-
-Instructors may ask questions to any group member during the oral exam, so it is essential that every member understands all aspects of the project. 
-Therefore, each group member must be well-versed in every detail related to the project.
-
-## Late Submission and Oral Exam Policy
-Students must submit their **reports and source codes** before the **oral exam** (during class in **Week 6**), as the oral exam time is crucial for evaluation.
-If a student or group is unable to attend the scheduled oral exam, they will be allowed to defend their project one week later during course hours. 
-However, this late defense of the oral exam will result in a 20% penalty on the total grade.
-
-**Please note that there will not be another opportunity to defend the project beyond this timeframe.**
-
-## Email Submission
-
-Students are required to **compress** their report and source codes into a **single file** (or provide a **GitHub link** to their source code repository) and submit it via **email** before oral examination.
-
-* Email Subject: Use the following format for the subject line of your email:
-dss-assignment1-StudentName
-* File Naming: Ensure that the compressed file is named appropriately, using the following format:
-StudentName-Report.zip
 
 ## Oral Exam Requirement
 
@@ -94,31 +71,57 @@ The oral exam is **mandatory** as part of the evaluation process. Students will 
 - Source codes must be **ready to show** in the IDE.
 - Tests must be **ready to run** for demonstration.
 
+## Group Work
+Students may form groups of up to two members.
+
+All group members will receive a common grade for the assignment.
+
+Instructors may ask questions to any group member during the oral exam, so it is essential that every member understands all aspects of the project. 
+Therefore, each group member must be well-versed in every detail related to the project.
+
 ## Report Structure
 While there is no standard template for the report, it must include the following essential components:
 
 ### Cover Page
-   Student Information: Include your full name, student ID, course name, and date of submission.
+Student Information: Include your full name, student ID, course name, and date of submission.
 
-   Title of the Report: Clearly state the title of your study or project.
+Title of the Report: Clearly state the title of your study or project.
+
 ### Study Explanation
-   The report must provide a straightforward explanation of your study, including:
+The report must provide a straightforward explanation of your study, including:
 
-   Objective: Clearly outline the purpose and goals of your study.
+Objective: Clearly outline the purpose and goals of your study.
 
-   Methodology: Describe the methods and approaches used in your research or project.
+Methodology: Describe the methods and approaches used in your research or project.
 
-   Conclusion: Summarize the key points and findings of your study. 
+Conclusion: Summarize the key points and findings of your study.
+
 ### Additional Recommendations
 
-   Ensure that your report is well-organized and free of grammatical errors.
+Ensure that your report is well-organized and free of grammatical errors.
 
-   Use clear headings and subheadings to enhance readability.
+Use clear headings and subheadings to enhance readability.
 
+## Email Submission
+
+Students are required to **compress** their report and source codes into a **single file** (or provide a **GitHub link** to their source code repository) and submit it via **email** before oral examination.
+
+* Email Subject: Use the following format for the subject line of your email:
+   - dss-assignment1-StudentName
+* File Naming: Ensure that the compressed file is named appropriately, using the following format:
+   - StudentName-Report.zip
+* Only **one submission per group** is sufficient.
 
 ## Technology Requirements
 Students are **required** to use the following technologies for their project:
 - **Python-pandas** for implementation
 - **Apache** for messaging
+
+## Late Submission and Oral Exam Policy
+Students must submit their **reports and source codes** before the **oral exam** (during class in **Week 6**), as the oral exam time is crucial for evaluation.
+If a student or group is unable to attend the scheduled oral exam, they will be allowed to defend their project one week later during course hours.
+However, this late defense of the oral exam will result in a 20% penalty on the total grade.
+
+**Please note that there will not be another opportunity to defend the project beyond this timeframe.**
 
 ### By adhering to these guidelines and policies, you will ensure that your submission is complete and meets the evaluation criteria. Good luck with your projects and oral exams!
