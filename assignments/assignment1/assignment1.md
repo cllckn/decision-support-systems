@@ -78,7 +78,7 @@ However, this late defense of the oral exam will result in a 20% penalty on the 
 
 ## Email Submission
 
-Students are required to **compress** their reports and source codes into a **single file** (or provide a **GitHub link** to their source code repository) and submit it via **email**.
+Students are required to **compress** their report and source codes into a **single file** (or provide a **GitHub link** to their source code repository) and submit it via **email** before oral examination.
 
 * Email Subject: Use the following format for the subject line of your email:
 dss-assignment1-StudentName
