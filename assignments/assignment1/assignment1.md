@@ -69,7 +69,7 @@ The oral exam is **mandatory** as part of the evaluation process. Students will 
 ### **During the Oral Exam:**
 - Reports must be **open** and accessible.
 - Source codes must be **ready to show** in the IDE.
-- Tests must be **ready to run** for demonstration.
+- Applications must be **ready to run** for demonstration.
 
 ## Group Work
 Students may form groups of up to two members.
@@ -113,9 +113,10 @@ Students are required to **compress** their report and source codes into a **sin
 * Only **one submission per group** is sufficient.
 
 ## Technology Requirements
+
 Students are **required** to use the following technologies for their project:
-- **Python-pandas** for implementation
-- **Apache** for messaging
+- **Python** for implementation
+- **Apache Kafka** for messaging
 
 ## Late Submission and Oral Exam Policy
 Students must submit their **reports and source codes** before the **oral exam** (during class in **Week 6**), as the oral exam time is crucial for evaluation.
