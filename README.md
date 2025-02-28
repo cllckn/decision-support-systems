@@ -28,20 +28,22 @@ The course will cover the following topics:
 * Parallel Processing with Apache Kafka
 * Hands-on exercises
 
-### Module 3: Web Applications And Web Services
+### Module 3: Web Applications, Web Services, and Basic User Interaction
 * Fundamentals of web applications and web services
 * Introduction to Node.js
 * Developing web applications using HTML,CSS, JS and Node.js
+* jQuery and Basic Form Operations for User Interaction
 * Developing RESTful APIs for DSS
 * Providing database support for the modules 
-* Integrating Python-based models with Node.js APIs using Apache Kafka
 * Hands-on exercises
 
-### Module 4: Visualization and User Interface
-* Basics of jQuery and DOM manipulation
-* jQuery for Interactive Visualizations
-* Designing forms to provide user interactions
-* Integrating visualization components
+### Module 4: Advanced User Interaction, Visualization, and Security
+* Advanced Form Operations for Enhanced User Interaction
+* jQuery for Advanced DOM Manipulation and Dynamic Forms
+* Authentication with JWT (JSON Web Tokens)
+* Securing Web Applications and APIs
+* Basics of Interactive Visualizations
+* Integrating Visualization Components into Web Applications
 * Designing user interfaces for DSS
 * Hands-on exercises
 
@@ -53,6 +55,7 @@ The course will cover the following topics:
 * Artificial Neural Networks (ANN):
 * Basics of ANN and their role in decision-making
 * Building a simple ANN using Python (TensorFlow/Keras)
+* Integrating Python-based models with Web Applications using Apache Kafka
 * Hands-on exercises
 
 ### Module 6: Integrating Components into a DSS
@@ -73,7 +76,7 @@ Students will be evaluated based on the following components:
 
 ## Assignments and Exams Schedule  
 
-| **Assignment**   | **Oral Exam Date**     | **Due Date**  |
+| **Assignment**   | **Oral Exam Date**     | **Due Date** |
 |-----------------|------------------------|--------------|
 | Assignment 1   | 27.02.2025 10:30-12:20 | Week 6       |
 | Assignment 2   | TBA                    | Week 11      |
