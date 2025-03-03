@@ -35,6 +35,7 @@ The course will cover the following topics:
 * jQuery and Basic Form Operations for User Interaction
 * Developing RESTful APIs for DSS
 * Providing database support for the modules 
+* Integrating Web Applications with Apache Kafka
 * Hands-on exercises
 
 ### Module 4: Advanced User Interaction, Visualization, and Security
@@ -55,7 +56,6 @@ The course will cover the following topics:
 * Artificial Neural Networks (ANN):
 * Basics of ANN and their role in decision-making
 * Building a simple ANN using Python (TensorFlow/Keras)
-* Integrating Python-based models with Web Applications using Apache Kafka
 * Hands-on exercises
 
 ### Module 6: Integrating Components into a DSS
