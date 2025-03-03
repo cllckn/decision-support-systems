@@ -6,7 +6,7 @@ A Decision Support System (DSS) is a computer-based tool that helps individuals 
 * To introduce students to the concepts of expert knowledge and decision support systems (DSS).
 * To develop skills in building web-based decision support systems using modern tools and frameworks.
 * To provide hands-on experience with data processing, visualization, and machine learning for decision-making.
-* To explain foundational machine learning models and fuzzy logic in the context of decision support.
+* To explain foundational machine learning models in the context of decision support.
 
 ## Course Content
 The course will cover the following topics:
