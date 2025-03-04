@@ -218,11 +218,11 @@ console.log('End');
 ```
 **Explanation of Execution Order**
 
-1. "Start" logs first (synchronous).
-2. setTimeout is registered but executes 2 sec later. 
-3. setTimeout is registered but executes 10 ms later.
-4. fs.readFile is non-blocking, so the operation starts, but the callback executes later.
-5. "End" logs next (synchronous).
+1. "Start" is printed to the console first (synchronous).
+2. setTimeout is registered but executed 2 seconds later. When the time is up, the statements inside setTimeout are executed.
+3. setTimeout is registered but executed 10 ms later. When the time is up, the statements inside setTimeout are executed.
+4. fs.readFile is non-blocking, so the file-reading operation starts immediately, and the callback is executed after the operation is completed.
+5. "end" is printed to the console (synchronous).
 6. The event loop handles setTimeout, setTimeout, and fs.readFile callbacks after the main script execution is completed.
 
 #### Node.js Event Loop Demonstration
@@ -501,7 +501,7 @@ or download and reference it locally:
 
 `<script src="js/jquery.min.js"></script>`
 
----
+
 
 ### **2. Basic jQuery Syntax**
 
@@ -512,6 +512,9 @@ jQuery follows a simple syntax:
 - **`$`** – The jQuery function.
 - **`selector`** – Selects an HTML element (e.g., `#id`, `.class`, `tag`).
 - **`action()`** – The operation to perform (e.g., `hide()`, `show()`, `click()`).
+
+**For the following jQuery code snippets, you are required to use a Node.js-based web application. 
+You must embed these code snippets into a HTML file.**
 
 ### **Example: Hiding a Paragraph on Click**
 1. Add a button and a paragraph in your HTML.
@@ -841,6 +844,8 @@ The web application will provide:
 ### Step 1: Modify the API (`simple-rest-api.js`)
 We will slightly modify the existing API to serve **static HTML files** in addition to handling RESTful requests.
 
+* /part5/rest-api-web-app-crd/server.js
+
 ```javascript
 
 const express = require("express");
@@ -914,7 +919,8 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 Inside a folder named public/, add an index.html file. This will be the main page where users 
 can view, add, update, and delete products using jQuery.
 
-Frontend Page (public/index.html)
+* /part5/rest-api-web-app-crd/public/index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -1005,16 +1011,14 @@ Frontend Page (public/index.html)
             });
 
             // Handle product deletion (AJAX DELETE request)
-            $(document).on("click", ".delete-btn", function(){
-                var id = $(this).data("id"); // Get product ID
-
-                // Asynchronous request to delete a product
+            $("#product-list").on("click", ".delete-btn", function() {
+                var id = $(this).data("id");
+                // Perform the deletion logic here
                 $.ajax({
                     url: `/api/products/${id}`,
                     type: "DELETE",
-                    //async: false, // Makes the request synchronous
-                    success: function(){
-                        loadProducts(); // Refresh product list after deletion
+                    success: function() {
+                        loadProducts();
                     }
                 });
             });
@@ -1031,9 +1035,387 @@ Frontend Page (public/index.html)
 ## **Hands-on Exercise5**
 ---
 
+
+**********************************************************************************************************
+
+### Add search and update functionalities to the web app
+
+* /part5/rest-api-web-app-crd/server.js
+
+```javascript
+// GET all products
+app.get("/api/products", (req, res) => {
+    // Accesses the name parameter from the query string in an Express.js request object.
+    const query = req.query.name?.toLowerCase() || ""; 
+
+    if (query) {
+        const filteredProducts = products.filter(product =>
+            product.name.toLowerCase().includes(query)
+        );
+        return res.json(filteredProducts);
+    }
+
+    res.json(products);
+});
+
+```
+
+
+* /part5/rest-api-web-app-crd/public/index.html
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        table { width: 50%; margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 10px; }
+        .error { color: red; display: none; }
+    </style>
+</head>
+<body>
+<h2>Product List</h2>
+
+<!-- Live Search Input -->
+<input type="text" id="search" placeholder="Search by name">
+<p class="error" id="search-error">No products found</p>
+
+<!-- Table to display products -->
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody id="product-list"></tbody>
+</table>
+
+<h2>Add Product</h2>
+<form id="add-product-form">
+    <input type="text" id="name" placeholder="Product Name" required>
+    <input type="number" id="price" placeholder="Price" required>
+    <button type="submit">Add Product</button>
+</form>
+<p class="error" id="error-msg">Invalid input</p>
+
+<div id="updateform" hidden="true">
+    <h2>Update Product</h2>
+    <form id="update-product-form">
+        <input type="number" id="update-id" placeholder="Product ID" readonly required>
+        <input type="text" id="update-name" placeholder="New Name">
+        <input type="number" id="update-price" placeholder="New Price">
+        <button type="submit">Update Product</button>
+    </form>
+    <p class="error" id="update-error-msg">Invalid input</p>
+</div>
+<script>
+    $(document).ready(function(){
+        let debounceTimer;
+
+        function loadProducts(query = "") {
+            let url = query ? `/api/products?name=${encodeURIComponent(query)}` : "/api/products";
+            $.get(url, function(products){
+                $("#product-list").empty();
+                if (products.length === 0) {
+                    $("#search-error").show();
+                } else {
+                    $("#search-error").hide();
+                    products.forEach(product => {
+                        $("#product-list").append(`
+                                <tr>
+                                    <td>${product.id}</td>
+                                    <td>${product.name}</td>
+                                    <td>${product.price}</td>
+                                    <td>
+                                        <button class="edit-btn" data-id="${product.id}">Edit</button>
+                                        <button class="delete-btn" data-id="${product.id}">Delete</button>
+                                    </td>
+                                </tr>
+                            `);
+                    });
+                }
+            });
+        }
+
+        $("#add-product-form").submit(function(event){
+            event.preventDefault();
+            let name = $("#name").val().trim();
+            let price = parseFloat($("#price").val().trim());
+
+            if (!name || isNaN(price) || price <= 0) {
+                $("#error-msg").fadeIn().delay(5000).fadeOut();
+                return;
+            }
+
+            $.post({
+                url: "/api/products",
+                contentType: "application/json",
+                data: JSON.stringify({ name, price }),
+                success: function() {
+                    loadProducts();
+                    $("#name, #price").val("");
+                }
+            });
+        });
+
+        $("#product-list").on("click", ".delete-btn", function() {
+            let id = $(this).data("id");
+            $.ajax({
+                url: `/api/products/${id}`,
+                type: "DELETE",
+                success: function() {
+                    loadProducts();
+                }
+            });
+        });
+
+     
+        //$("#search"):This is a jQuery selector that selects an HTML element with the id of search.
+        // The .on() method is used to attach an event handler to the selected element(s).
+        // "keyup" is the event type being listened for. The keyup event is triggered when a keyboard key is released after being pressed.
+        // function() { ... } is the callback function that will be executed when the keyup event occurs.
+        
+        $("#search").on("keyup", function() { // attaches an event listener to the search input field (#search). The event triggers whenever the user releases a key (keyup event).
+            clearTimeout(debounceTimer); // Clears any previously set timer (debounceTimer) to prevent multiple requests being sent in quick succession.
+            let query = $(this).val().trim();
+            debounceTimer = setTimeout(() => { //Sets a delay of 300 milliseconds before calling loadProducts(query).
+                loadProducts(query);
+            }, 300);
+        });
+
+        $("#update-product-form").submit(function(event){
+            event.preventDefault();
+            let id = parseInt($("#update-id").val().trim());
+            let name = $("#update-name").val().trim();
+            let price = parseFloat($("#update-price").val().trim());
+
+            if (isNaN(id) || id <= 0 || (!name && isNaN(price))) {
+                $("#update-error-msg").fadeIn().delay(5000).fadeOut();
+                return;
+            }
+
+            $.ajax({
+                url: `/api/products/${id}`,
+                type: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify({ name, price }),
+                success: function() {
+                    loadProducts();
+                    $("#update-id, #update-name, #update-price").val("");
+                }
+            });
+        });
+
+        // Load product data into update form when "Edit" is clicked
+        $("#product-list").on("click", ".edit-btn", function() {
+            let id = $(this).data("id");
+            $("#updateform").fadeIn(2000);
+            $.get(`/api/products/${id}`, function(product) {
+                $("#update-id").val(product.id);
+                $("#update-name").val(product.name);
+                $("#update-price").val(product.price);
+            });
+        });
+
+        loadProducts();
+    });
+</script>
+</body>
+</html>
+
+```
+
+
+
+
+---
+## **Hands-on Exercise6**
+
+Add search and update functions for the developed app in Exercise 5.
+
+---
+
+
+
+
+
+### Tailwind CSS
+
+Tailwind CSS is a utility-first CSS framework that allows developers to style their HTML elements using pre-designed utility classes.
+
+* To use in a html file:
+```html
+<head>
+    <meta charset="UTF-8">
+
+    <!-- This line enables responsive web design by allowing the layout to adapt 
+    to different screen sizes without requiring manual zooming or horizontal scrolling. -->
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+   <title>Tailwind Example</title>
+   <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+```
+
+* Try tailwind here:
+
+https://play.tailwindcss.com/
+
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind Flex Layout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100"> <!-- Sets the background color to a light gray (Tailwind's gray-100 shade) -->
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 text-white p-4 shadow-md"> <!-- 
+        Sets the background color to blue (Tailwind's blue-600 shade), 
+        text color to white, adds padding of 1rem (4 * 0.25rem), 
+        and applies a medium-sized shadow
+    -->
+        <div class="max-w-7xl mx-auto flex justify-between items-center"> <!-- 
+            Sets a maximum width of 80rem, centers the content horizontally, 
+            enables flexbox layout, distributes space evenly between items, 
+            and vertically aligns items to the center
+        -->
+            <h1 class="text-xl font-bold">My Dashboard</h1> <!-- Sets font size to extra large (1.25rem) and font weight to bold -->
+            <ul class="hidden md:flex space-x-4"> <!-- 
+                Hides the list by default, displays as flex on medium screens and larger, 
+                and adds horizontal space of 1rem (4 * 0.25rem) between items
+            -->
+                <li><a href="#" class="hover:underline">Home</a></li> <!-- Applies underline on hover -->
+                <li><a href="#" class="hover:underline">About</a></li> <!-- Applies underline on hover -->
+                <li><a href="#" class="hover:underline">Contact</a></li> <!-- Applies underline on hover -->
+            </ul>
+            <button class="md:hidden text-white focus:outline-none" id="menu-btn">☰</button> <!-- 
+                Hides the button on medium screens and larger, sets text color to white, 
+                and removes default focus outline
+            -->
+        </div>
+    </nav>
+
+    <!-- Sidebar + Main Content Container -->
+    <div class="flex h-screen"> <!-- Enables flexbox layout and sets height to 100% of screen height -->
+        <!-- Sidebar -->
+        <aside class="bg-gray-800 text-white w-64 space-y-6 py-6 px-4 hidden md:block"> <!-- 
+            Sets background color to dark gray (Tailwind's gray-800 shade), 
+            text color to white, width to 16rem, vertical space of 1.5rem (6 * 0.25rem), 
+            vertical padding of 1.5rem, horizontal padding of 1rem, 
+            hides by default, and displays as block on medium screens and larger
+        -->
+            <h2 class="text-xl font-semibold">Menu</h2> <!-- Sets font size to extra large (1.25rem) and font weight to semi-bold -->
+            <nav>
+                <a href="#" class="block py-2 px-4 hover:bg-gray-700 hover:bold">Dashboard</a> <!-- 
+                    Sets display to block, vertical padding of 0.5rem, horizontal padding of 1rem, 
+                    changes background color to a lighter gray on hover, and applies bold font on hover
+                -->
+                <a href="#" class="block py-2 px-4 hover:bg-gray-700">Products</a> <!-- 
+                    Sets display to block, vertical padding of 0.5rem, horizontal padding of 1rem, 
+                    changes background color to a lighter gray on hover
+                -->
+                <a href="#" class="block py-2 px-4 hover:bg-gray-700">Users</a> <!-- 
+                    Sets display to block, vertical padding of 0.5rem, horizontal padding of 1rem, 
+                    changes background color to a lighter gray on hover
+                -->
+                <a href="#" class="block py-2 px-4 hover:bg-gray-700">Settings</a> <!-- 
+                    Sets display to block, vertical padding of 0.5rem, horizontal padding of 1rem, 
+                    changes background color to a lighter gray on hover
+                -->
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6"> <!-- Allows main content to grow and take up remaining space, adds padding of 1.5rem -->
+            <h2 class="text-2xl font-bold mb-4">Welcome to the Dashboard</h2> <!-- 
+                Sets font size to 2xl (1.5rem), font weight to bold, and adds bottom margin of 1rem
+            -->
+            <p class="text-gray-700"> <!-- Sets text color to medium gray (Tailwind's gray-700 shade) -->
+                This is a simple dashboard layout built with Tailwind CSS. 
+                The sidebar is collapsible on smaller screens, and the layout is fully responsive.
+            </p>
+
+            <!-- Example Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6"> <!-- 
+                Enables CSS Grid layout, creates one column on small screens, 
+                three columns on medium screens and larger, adds gap of 1rem, 
+                and adds top margin of 1.5rem
+            -->
+                <div class="bg-white p-4 shadow rounded"> <!-- 
+                    Sets background color to white, adds padding of 1rem, 
+                    applies default-sized shadow, and adds rounded corners
+                -->
+                    <h3 class="font-semibold">Card 1</h3> <!-- Sets font weight to semi-bold -->
+                    <p class="text-gray-600">Some content...</p> <!-- Sets text color to a slightly darker gray (Tailwind's gray-600 shade) -->
+                </div>
+                <div class="bg-white p-4 shadow rounded"> <!-- 
+                    Sets background color to white, adds padding of 1rem, 
+                    applies default-sized shadow, and adds rounded corners
+                -->
+                    <h3 class="font-semibold">Card 2</h3> <!-- Sets font weight to semi-bold -->
+                    <p class="text-gray-600">Some content...</p> <!-- Sets text color to a slightly darker gray (Tailwind's gray-600 shade) -->
+                </div>
+                <div class="bg-white p-4 shadow rounded"> <!-- 
+                    Sets background color to white, adds padding of 1rem, 
+                    applies default-sized shadow, and adds rounded corners
+                -->
+                    <h3 class="font-semibold">Card 3</h3> <!-- Sets font weight to semi-bold -->
+                    <p class="text-gray-600">Some content...</p> <!-- Sets text color to a slightly darker gray (Tailwind's gray-600 shade) -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white text-center py-4 mt-auto"> <!-- 
+        Sets background color to very dark gray (Tailwind's gray-900 shade), 
+        text color to white, centers text horizontally, adds vertical padding of 1rem, 
+        and sets margin top to auto
+    -->
+        <p> 2025 My Dashboard. All rights reserved.</p>
+    </footer>
+
+    <!-- Script for Mobile Menu -->
+    <script>
+        document.getElementById('menu-btn').addEventListener('click', function() {
+            document.querySelector('aside').classList.toggle('hidden'); // Toggles the 'hidden' class on the sidebar
+        });
+    </script>
+
+</body>
+</html>
+
+```
+
+* /src/dss/module3/part5/structured-web-app
+
+
+---
+## **Hands-on Exercise7**
+    Style the web app developed in Exercise 6 using Tailwind or another framework.
+---
+
+
+
+
 ### Routers and Routes in Express.js
 
-A **route** in Express.js defines an endpoint that a client can access via **HTTP methods** (GET, POST, PUT, DELETE, etc.). Each route consists of:
+A **route** in Express.js defines an endpoint that a client can access via **HTTP methods** 
+(GET, POST, PUT, DELETE, etc.). Each route consists of:
+
 1. **A URL pattern** (e.g., `/api/customers/:id`)
 2. **An HTTP method** (GET, POST, etc.)
 3. **A callback function** to handle the request
@@ -1051,7 +1433,7 @@ Benefits of Using a Router
 * Reusability – Routes can be modular and reusable across different parts of the application.
 * Easier maintenance – Adding new routes does not clutter the main server file.
 
-server-with-router.js
+* /src/dss/module3/part5/routers/server.js
 ```javascript
 const express = require("express");
 const cors = require("cors");
@@ -1130,11 +1512,6 @@ module.exports = router;
     Ensure that both products and customers have their own route files and are correctly integrated into the main application.
     Once completed, test all API endpoints (both products and customers) using IntelliJ HTTP client to verify their functionality.
     Try using Postman for testing APIs, as it provides an intuitive interface for making HTTP requests and analyzing responses.
-
-
-
-
-
 
 
 ## Part 6: Providing database support for the modules
@@ -1269,10 +1646,11 @@ app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`)
 ```
 
 ---
-## **Hands-on Exercise6**
+## **Hands-on Exercise8**
 
 ---
 
 
 
+## Part 7: Integrating Web Applications with Apache Kafka
 
