@@ -13,8 +13,19 @@ let customers = [
     { id: 2, name: "Bob Smith", email: "bob@example.com", phone: "9876543210", city: "Los Angeles" },
 ];
 
+
 // GET all customers
 app.get("/api/customers", (req, res) => {
+    // Accesses the name parameter from the query string in an Express.js request object.
+    const query = req.query.name?.toLowerCase() || "";
+
+    if (query) {
+        const filteredCustomers = customers.filter(customer =>
+            customer.name.toLowerCase().includes(query)
+        );
+        return res.json(filteredCustomers);
+    }
+
     res.json(customers);
 });
 
@@ -56,5 +67,5 @@ app.delete("/api/customers/:id", (req, res) => {
 });
 
 // Start server
-const PORT = 80;
+const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
