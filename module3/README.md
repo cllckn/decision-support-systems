@@ -1400,7 +1400,7 @@ https://play.tailwindcss.com/
 
 ```
 
-* /src/dss/module3/part5/structured-web-app
+* [/src/dss/module3/part5/structured-web-app](https://github.com/cllckn/decision-support-systems/tree/main/module3/part5)
 
 
 ---
