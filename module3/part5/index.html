@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+<!--    <link rel="stylesheet" href="./css/styles.css">-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body class="bg-gray-100 flex flex-col min-h-screen"> <!--
+        Flex container with column direction, minimum height of the viewport,
+        and light gray background
+    -->
+<div class="flex flex-1"> <!-- Flex container to take up remaining space -->
+    <!-- Sidebar -->
+    <div class="w-64 bg-gray-900 text-white flex flex-col p-5">
+        <h2 class="text-2xl font-bold text-center mb-6">Dashboard</h2>
+        <ul class="space-y-4">
+            <li><a href="#" id="home-link" class="block p-2 rounded hover:bg-gray-700">Home</a></li>
+            <li><a href="#" id="products-link" class="block p-2 rounded hover:bg-gray-700">Products</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 p-6">
+        <div id="content-area" class="bg-white p-6 shadow rounded-lg">
+            <h2 class="text-2xl font-bold mb-4">Welcome to the Dashboard</h2>
+            <p class="text-gray-700">This is the main content area.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Sticky Footer -->
+<footer class="w-full bg-gray-800 text-white text-center py-4 mt-auto"> <!--
+            Sets background color to very dark gray (Tailwind's gray-900 shade),
+            text color to white, centers text horizontally, adds vertical padding of 1rem,
+            and sets margin top to auto to push the footer to the bottom
+        -->
+    <p>© 2025 DSS Dashboard. All rights reserved.</p>
+</footer>
+<script src="./js/script-main.js"></script>
+</body>
+</html>
