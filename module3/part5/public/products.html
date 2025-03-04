@@ -1,0 +1,38 @@
+<div class="p-6">
+    <h2 class="text-2xl font-bold mb-4">Product Management</h2>
+
+    <!-- Search -->
+    <input type="text" id="search" class="w-1/2 p-2 border border-gray-300 rounded mb-4" placeholder="Search product">
+
+    <!-- Product Table -->
+    <table class="w-2/3 border border-gray-300 text-left">
+        <thead>
+        <tr class="bg-gray-200">
+            <th >ID</th>
+            <th >Name</th>
+            <th >Price</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody  id="product-list"></tbody>
+    </table>
+
+    <!-- Add Product -->
+    <h2 class="text-xl font-semibold mt-6 mb-3">Add Product</h2>
+    <form id="add-product-form" class="space-y-2">
+        <input type="text" id="name" class="w-1/2 p-2 border border-gray-300 rounded" placeholder="Product Name" required>
+        <input type="number" id="price" class="w-1/2 p-2 border border-gray-300 rounded" placeholder="Price" required>
+        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add</button>
+    </form>
+
+    <!-- Update Product -->
+    <h2 class="text-xl font-semibold mt-6 mb-3">Update Product</h2>
+    <form id="update-product-form" class="space-y-2">
+        <input type="number" id="update-id" class="w-1/2 p-2 border border-gray-300 rounded bg-gray-100" placeholder="ID" readonly required>
+        <input type="text" id="update-name" class="w-1/2 p-2 border border-gray-300 rounded" placeholder="New Name">
+        <input type="number" id="update-price" class="w-1/2 p-2 border border-gray-300 rounded" placeholder="New Price">
+        <button type="submit" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">Update</button>
+    </form>
+
+    <script src="./js/script-products.js"></script>
+</div>
