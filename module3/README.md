@@ -1038,7 +1038,7 @@ can view, add, update, and delete products using jQuery.
 
 **********************************************************************************************************
 
-### Add search and update functionalities to the web app
+### Step 3: Add search and update functionalities to the web app
 
 * /part5/rest-api-web-app-crd/server.js
 
@@ -1247,9 +1247,11 @@ Add search and update functions for the developed app in Exercise 5.
 
 
 
-### Tailwind CSS
+## Styling Web Applications with Tailwind CSS
 
 Tailwind CSS is a utility-first CSS framework that allows developers to style their HTML elements using pre-designed utility classes.
+
+* [For the details](https://v3.tailwindcss.com/docs)
 
 * To use in a html file:
 ```html
@@ -1350,7 +1352,7 @@ https://play.tailwindcss.com/
 
             <!-- Example Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6"> <!-- 
-                Enables CSS Grid layout, creates one column on small screens, 
+                Enables CSS Grid layout, constructs one column on small screens, 
                 three columns on medium screens and larger, adds gap of 1rem, 
                 and adds top margin of 1.5rem
             -->
@@ -1404,10 +1406,9 @@ https://play.tailwindcss.com/
 
 
 ---
-## **Hands-on Exercise7**
+## **Hands-on Exercise 7**
     Style the web app developed in Exercise 6 using Tailwind or another framework.
 ---
-
 
 
 
@@ -1436,13 +1437,12 @@ Benefits of Using a Router
 * /src/dss/module3/part5/routers/server.js
 ```javascript
 const express = require("express");
-const cors = require("cors");
 const productRoutes = require("./routes/products"); // Import product routes
 
 const app = express();
 
 app.use(express.json()); // Parse JSON requests
-app.use(cors()); // Enable CORS for cross-origin requests
+
 
 // Use product routes
 app.use("/api/products", productRoutes);
@@ -1506,15 +1506,17 @@ router.delete("/:id", (req, res) => {
 module.exports = router;
 ```
 
-#### Exercise: Extend the server-with-router.js
-
-    Combine the customer REST API from Hands-on Exercise 4 (given below) with "server-with-router.js" service by creating a separate router file for customer-related routes. 
-    Ensure that both products and customers have their own route files and are correctly integrated into the main application.
-    Once completed, test all API endpoints (both products and customers) using IntelliJ HTTP client to verify their functionality.
-    Try using Postman for testing APIs, as it provides an intuitive interface for making HTTP requests and analyzing responses.
-
 
 ## Part 6: Providing database support for the modules
+
+To perform database operations using application programs, **database drivers** are essential. These drivers facilitate communication between the programming language and the database.
+### **Database Drivers Provide the Following Core Functions:**
+- **Establishing a connection** to the database.
+- **Executing queries** (such as SELECT, INSERT, UPDATE, DELETE).
+- **Closing the connection** after operations are completed.
+
+
+### **Database Operations with Node.js and PostgreSQL**
 
 * Setting up PostgreSQL
 ```sql
@@ -1646,7 +1648,7 @@ app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`)
 ```
 
 ---
-## **Hands-on Exercise8**
+## **Hands-on Exercise 8**
 
 ---
 
@@ -1654,3 +1656,344 @@ app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`)
 
 ## Part 7: Integrating Web Applications with Apache Kafka
 
+Detailed explanation and implementation of the real-time price validation and adjustment algorithm using 
+Apache Kafka, Node.js (kafkajs), and Python (confluent-kafka).
+
+### Algorithm Overview
+The algorithm follows an event-driven architecture where product data is processed asynchronously using Kafka.
+
+Steps:
+* New Product Submission (Node.js API)
+  - When a new product is added (POST /api/products), it is sent to Kafka (dss-products topic).
+* Kafka Consumer (Python)
+  - A Python service listens to the dss-products topic.
+  - It applies business logic:
+    - Validates the product.
+    - Adjusts the price (e.g., adds tax, applies discounts).
+  - The updated product is published to the dss-validated-products topic.
+* Kafka Consumer (Node.js)
+  - A Node.js Kafka consumer listens to dss-validated-products.
+  - The updated product data is stored in an in-memory array.
+
+
+* /module3/part7/server-with-kafka-support.js
+
+```javascript
+const express = require("express");
+const bodyParser = require("body-parser");
+const { Kafka } = require("kafkajs");
+const path = require("path");
+
+const app = express();
+app.use(bodyParser.json());
+
+const kafka = new Kafka({
+    clientId: "product-service",
+    brokers: ["191.101.2.193:9092"]
+});
+
+const producer = kafka.producer();
+const consumer = kafka.consumer({ groupId: "product-group" });
+
+let products = [];
+
+app.use(express.static(path.join(__dirname, 'public'))); // Middleware to serve static files (HTML, CSS, JS) from the 'public' folder
+
+// Kafka Producer - Send Product Data
+app.post("/api/products", async (req, res) => {
+    const { name, price } = req.body;
+    if (!name || !price) {
+        return res.status(400).json({ error: "Invalid input" });
+    }
+
+    const newProduct = { id: products.length + 1, name, price };
+    //products.push(newProduct);
+
+    await producer.connect();
+    await producer.send({
+        topic: "dss-products",
+        messages: [{ key: String(newProduct.id), value: JSON.stringify(newProduct) }]
+    });
+    await producer.disconnect();
+
+    res.status(201).json(newProduct);
+});
+
+// Kafka Consumer - Receive and Save Validated Products
+const consumeValidatedProducts = async () => {
+    await consumer.connect();
+    await consumer.subscribe({ topic: "dss-validated-products", fromBeginning: true });
+
+    await consumer.run({
+        eachMessage: async ({ message }) => {
+            const validatedProduct = JSON.parse(message.value.toString());
+
+            /* const index = products.findIndex(p => p.id === validatedProduct.id);
+             if (index !== -1) {
+                 products[index] = validatedProduct;
+             } else {*/
+            products.push(validatedProduct);
+            //}
+        }
+    });
+};
+
+consumeValidatedProducts();
+
+// Retrieve all products
+app.get("/api/products", (req, res) => {
+    res.json(products);
+});
+
+app.listen(3000, () => console.log("Server running on port 3000"));
+
+```
+* /module3/part7/public/index.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        table { width: 50%; margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 10px; }
+        .error { color: red; display: none; }
+    </style>
+</head>
+<body>
+<h2>Product List</h2>
+
+<!-- Live Search Input -->
+<input type="text" id="search" placeholder="Search by name">
+<p class="error" id="search-error">No products found</p>
+<!-- Table to display products -->
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody id="product-list"></tbody> <!-- Products will be dynamically inserted here -->
+</table>
+
+<h2>Add Product</h2>
+<!-- Form to add a new product -->
+<form id="add-product-form">
+    <input type="text" id="name" placeholder="Product Name" required>
+    <input type="number" id="price" placeholder="Price" required>
+    <button type="submit">Add Product</button>
+</form>
+<p class="error" id="error-msg">Invalid input</p> <!-- Error message for validation -->
+
+
+<div id="updateform" hidden="true">
+    <h2>Update Product</h2>
+    <form id="update-product-form">
+        <input type="number" id="update-id" placeholder="Product ID" readonly required>
+        <input type="text" id="update-name" placeholder="New Name">
+        <input type="number" id="update-price" placeholder="New Price">
+        <button type="submit">Update Product</button>
+    </form>
+    <p class="error" id="update-error-msg">Invalid input</p>
+</div>
+
+<script>
+    $(document).ready(function(){
+        // Function to load products asynchronously using AJAX (GET request)
+        let debounceTimer;
+
+        function loadProducts(query = "") {
+            let url = query ? `/api/products?name=${encodeURIComponent(query)}` : "/api/products";
+            $.get(url, function(products){
+                $("#product-list").empty();
+                if (products.length === 0) {
+                    $("#search-error").show();
+                } else {
+                    $("#search-error").hide();
+                    products.forEach(product => {
+                        $("#product-list").append(`
+                                <tr>
+                                    <td>${product.id}</td>
+                                    <td>${product.name}</td>
+                                    <td>${product.price}</td>
+                                    <td>
+                                        <button class="edit-btn" data-id="${product.id}">Edit</button>
+                                        <button class="delete-btn" data-id="${product.id}">Delete</button>
+                                    </td>
+                                </tr>
+                            `);
+                    });
+                }
+            });
+        }
+
+        $("#search").on("keyup", function() { // attaches an event listener to the search input field (#search). The event triggers whenever the user releases a key (keyup event).
+            clearTimeout(debounceTimer); // Clears any previously set timer (debounceTimer) to prevent multiple requests being sent in quick succession.
+            let query = $(this).val().trim();
+            debounceTimer = setTimeout(() => { //Sets a delay of 300 milliseconds before calling loadProducts(query).
+                loadProducts(query);
+            }, 1000);
+        });
+
+        // Handle form submission to add a new product (AJAX POST request)
+        $("#add-product-form").submit(function(event){
+            event.preventDefault(); // Prevent default form submission
+            var name = $("#name").val().trim(); // Get product name
+            var price = parseFloat($("#price").val().trim()); // Get product price
+
+            // Validate input: Ensure name is not empty and price is valid
+            if (!name || isNaN(price) || price <= 0) {
+                $("#error-msg").fadeIn().delay(5000).fadeOut();
+                return;
+            }
+
+            // Asynchronous request to add a product
+            $.post({
+                url: "/api/products",
+                contentType: "application/json", // Ensure JSON is sent correctly
+                data: JSON.stringify({ name, price }),
+                success: function(response) {
+                    setTimeout(function() {
+                        loadProducts(); // Refresh product list after 2000 seconds
+                    }, 2000);
+                    console.log("Product added:", response);
+                    $("#name").val(""); // Clear input fields
+                    $("#price").val("");
+                },
+                error: function(xhr) {
+                    console.error("Error:", xhr.responseText);
+                }
+            });
+        });
+
+        // Handle product deletion (AJAX DELETE request)
+        $("#product-list").on("click", ".delete-btn", function() {
+            var id = $(this).data("id");
+            // Perform the deletion logic here
+            $.ajax({
+                url: `/api/products/${id}`,
+                type: "DELETE",
+                success: function() {
+                    loadProducts();
+                }
+            });
+        });
+
+        $("#update-product-form").submit(function(event){
+            event.preventDefault();
+            let id = parseInt($("#update-id").val().trim());
+            let name = $("#update-name").val().trim();
+            let price = parseFloat($("#update-price").val().trim());
+
+            if (isNaN(id) || id <= 0 || (!name && isNaN(price))) {
+                $("#update-error-msg").fadeIn().delay(5000).fadeOut();
+                return;
+            }
+
+            $.ajax({
+                url: `/api/products/${id}`,
+                type: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify({ name, price }),
+                success: function() {
+                    loadProducts();
+                    $("#update-id, #update-name, #update-price").val("");
+                }
+            });
+        });
+
+        // Load product data into update form when "Edit" is clicked
+        $("#product-list").on("click", ".edit-btn", function() {
+            let id = $(this).data("id");
+            $("#updateform").fadeIn(2000);
+            $.get(`/api/products/${id}`, function(product) {
+                $("#update-id").val(product.id);
+                $("#update-name").val(product.name);
+                $("#update-price").val(product.price);
+            });
+        });
+
+        loadProducts(); // Initial load of products (asynchronous)
+    });
+</script>
+</body>
+</html>
+```
+
+/module3/part7/product-processor.py
+```bash
+from confluent_kafka import Consumer, Producer
+import json
+
+KAFKA_BROKER = "localhost:9092"
+PRODUCTS_TOPIC = "dss-products"
+VALIDATED_TOPIC = "dss-validated-products"
+
+
+# Kafka Producer for sending validated products
+def send_validated_product(product):
+    producer = Producer({'bootstrap.servers': KAFKA_BROKER})
+    producer.produce(VALIDATED_TOPIC, key=str(product['id']), value=json.dumps(product))
+    producer.flush()
+
+# Process product
+def process_product(product):
+    """Business logic: Validate and adjust price."""
+    price = product["price"]
+
+    # Example rules
+    if price < 500:
+        price *= 0.9  # Apply 10% discount
+    price *= 1.05  # Add 5% tax
+
+    product["price"] = round(price, 2)
+    return product
+
+
+# Kafka Consumer for receiving products to process
+# Kafka Consumer Configuration
+consumer_conf = {
+    'bootstrap.servers': KAFKA_BROKER,
+    'group.id': 'product-processor',
+    'auto.offset.reset': 'earliest'
+}
+consumer = Consumer(consumer_conf)
+consumer.subscribe([PRODUCTS_TOPIC])
+
+print("Python Kafka Consumer listening...")
+
+# Processing Loop
+while True:
+    msg = consumer.poll(1.0)
+    if msg is None:
+        continue
+    if msg.error():
+        print(f"Consumer error: {msg.error()}")
+        continue
+
+    product = json.loads(msg.value().decode('utf-8'))
+    print(f"Received: {product}")
+
+    # Apply business logic
+    # Process product
+    validated_product = process_product(product)
+    print(f"Processed: {validated_product}")
+
+    send_validated_product(validated_product)
+
+consumer.close()
+
+```
+
+
+---
+## **Hands-on Exercise 9**
+
+---
