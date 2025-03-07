@@ -1,4 +1,3 @@
-
 # **Assignment 2: Developing a Web-Based Streaming Application**
 
 ## **Objective**
@@ -136,7 +135,7 @@ Students are required to **compress** their report and source codes into a **sin
 * Only **one submission per group** is sufficient.
 
 ## Late Submission and Oral Exam Policy
-Students must submit their **reports and source codes** before the **oral exam** (during class in **Week 6**), as the oral exam time is crucial for evaluation.
+Students must submit their **reports and source codes** before the **oral exam**, as the oral exam time is crucial for evaluation.
 If a student or group is unable to attend the scheduled oral exam, they will be allowed to defend their project one week later during course hours.
 However, this late defense of the oral exam will result in a 20% penalty on the total grade.
 
