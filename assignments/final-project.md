@@ -127,8 +127,4 @@ Students are required to **compress** their report and source code into a **sing
    - StudentName-Report.zip
 * Only **one submission per group** is sufficient.
 
-## Late Submission and Oral Exam Policy
-Students must submit their **reports and source code** before the **oral exam**, as the oral exam time is crucial for evaluation.
-
-
 ### By adhering to these guidelines and policies, you will ensure that your submission is complete and meets the evaluation criteria. Good luck with your projects and oral exams!
