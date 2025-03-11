@@ -1509,7 +1509,9 @@ module.exports = router;
 
 ## Part 6: Providing database support for the modules
 
-To perform database operations using application programs, **database drivers** are essential. These drivers facilitate communication between the programming language and the database.
+To perform database operations using application programs, **database drivers** are essential. 
+Drivers facilitate communication between the programming language and the database.
+
 ### **Database Drivers Provide the Following Core Functions:**
 - **Establishing a connection** to the database.
 - **Executing queries** (such as SELECT, INSERT, UPDATE, DELETE).
@@ -1541,9 +1543,19 @@ const { Pool } = require("pg"); // PostgreSQL client
 const app = express();
 
 // Initialize a new PostgreSQL connection pool
+
 const pool = new Pool({
-    connectionString: "postgresql://postgres:LecturePassword@localhost:5432/dss",
+    user: 'postgres',
+    host: 'localhost',
+    database: 'dss',
+    password: 'LecturePassword',
+    port: 5432,
 });
+
+/*const pool = new Pool({
+    connectionString: "postgresql://postgres:LecturePassword@localhost:5432/dss",
+});*/
+
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
@@ -1656,11 +1668,92 @@ app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`)
 
 ## Part 7: Integrating Web Applications with Apache Kafka
 
-Detailed explanation and implementation of the real-time price validation and adjustment algorithm using 
-Apache Kafka, Node.js (kafkajs), and Python (confluent-kafka).
+* /part7/simple-producer.js
 
-### Algorithm Overview
+```javascript
+const { Kafka } = require('kafkajs');
+
+// Initialize Kafka client
+const kafka = new Kafka({
+clientId: 'my-producer',
+brokers: ['localhost:9092'] // Replace with your Kafka broker address
+});
+
+// Create a Kafka producer instance
+const producer = kafka.producer();
+
+const sendMessage = async () => {
+await producer.connect(); // Connect to Kafka broker
+console.log("Producer connected.");
+
+    setInterval(async () => {
+        const timestamp = new Date().toISOString(); // Get the current timestamp
+        const messageValue = `Message sent at ${timestamp}`;
+
+        await producer.send({
+            topic: 'dss-test-topic1',
+            messages: [
+                { key: 'timestamp', value: messageValue }
+            ]
+        });
+
+        console.log(`Sent: ${messageValue}`);
+    }, 1000); // Send a message every second
+};
+
+// Run the producer
+sendMessage().catch(console.error);
+
+```
+
+* /part7/simple-consumer.js
+
+```javascript
+const { Kafka } = require('kafkajs');
+
+// Initialize Kafka client
+const kafka = new Kafka({
+    clientId: 'my-consumer',
+    brokers: ['localhost:9092'] // Replace with your Kafka broker address
+});
+
+// Create a Kafka consumer instance
+const consumer = kafka.consumer({ groupId: 'test-group' });
+
+const runConsumer = async () => {
+    await consumer.connect(); // Connect to Kafka broker
+    console.log("Consumer connected.");
+
+    await consumer.subscribe({ topic: 'dss-test-topic1', fromBeginning: false });
+    //If true, the consumer will start reading from the beginning of the topic (including old messages).
+    //If false (default), the consumer will only receive new messages (ignoring previous ones).
+
+    await consumer.run({
+        eachMessage: async ({ topic, partition, message }) => {
+            console.log(`Received message: ${message.value.toString()} `);
+        }
+    });
+};
+
+// Run the consumer
+runConsumer().catch(console.error);
+
+```
+
+
+
+### Case Study: Real-time Price Validation and Adjustment Algorithm Using Apache Kafka, Node.js (kafkajs), and Python (confluent-kafka)
+
+A detailed explanation and implementation of a real-time price validation and adjustment algorithm utilizing Apache Kafka, Node.js (kafkajs), 
+and Python (confluent-kafka).
+
+* Figure: Overview of the system
+
+
+
+#### Algorithm Overview
 The algorithm follows an event-driven architecture where product data is processed asynchronously using Kafka.
+
 
 Steps:
 * New Product Submission (Node.js API)
@@ -1689,7 +1782,7 @@ app.use(bodyParser.json());
 
 const kafka = new Kafka({
     clientId: "product-service",
-    brokers: ["191.101.2.193:9092"]
+    brokers: ["localhost:9092"]
 });
 
 const producer = kafka.producer();
