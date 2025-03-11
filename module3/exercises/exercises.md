@@ -80,7 +80,9 @@ These tasks are for students to implement at home:
 
 ---
 
----
+
+
+
 
 
 
@@ -139,6 +141,12 @@ Students will have a functional login system where:
 ---
 
 
+
+
+
+
+
+
 # **Hands-on Exercise 3: Extending the Web Application with jQuery**
 
 In this exercise, the web application implemented in Hands-on Exercise 2 will be extended by replacing and enhancing the login validation and dashboard functionality using **jQuery**.
@@ -187,6 +195,10 @@ By completing this exercise, students will:
 - Implement **basic page navigation** with jQuery.
 
 ---
+
+
+
+
 
 
 
@@ -261,7 +273,8 @@ These tasks are for students to implement at home:
 # **Hands-On Exercise 5: Extending REST API to a Web Application**
 
 ## **Objective**
-In this exercise, you will extend the REST API developed in **Hands-On Exercise 4**, which manages **customer data**, by developing a **web application** with **jQuery-based web pages** to perform **CRUD (Create, Read, Update, Delete) operations**.
+In this exercise, you will extend the REST API developed in **Hands-On Exercise 4**, which manages **customer data**, 
+by developing a **web application** with **jQuery-based web pages** to perform **CRUD (Create, Read, Update, Delete) operations**.
 
 Each customer should have:
 - `id` (integer)
@@ -319,3 +332,90 @@ Use **jQuery AJAX** to handle asynchronous data interactions.
 - Test the API using cURL or http client.
 
 
+
+
+
+
+
+# **Hands-on Exercise6**
+
+Add search and update functions for the developed app in Exercise 5.
+
+
+
+
+
+
+
+# **Hands-on Exercise 7**
+    Style the web app developed in Exercise 6 using Tailwind or another framework.
+
+
+
+
+
+# Hands-on Exercise 8:  REST API Development With Database Support
+
+Integrate PostgreSQL into the application developed in hands-on exercise 6.
+
+You are required to initialize a new database and construct the relevant table.
+
+
+
+
+
+# **Hands-On Exercise 9: Real-Time Employee Risk Assessment Using Apache Kafka**
+
+## **Objective**
+In this exercise, you will build a **real-time data processing system** using **Apache Kafka, Node.js, and Python**. The system will:
+- Accept employee information through a **REST API**.
+- Send the data to **Apache Kafka** (`dss-employee` topic).
+- Process the data in **Python** and add a risk assessment field (`HighRiskEmployee`).
+- Publish the processed data to **Kafka** (`dss-employee-processed` topic).
+- Consume the processed data in **Node.js**, store it in memory, and display it on a **web interface using jQuery**.
+
+---
+
+## **System Requirements**
+
+### **REST API (Node.js)**
+1. Implement an **Express.js** REST API.
+2. Provide a **POST endpoint** (`/api/employee`) that accepts the following employee data:
+
+```json
+{
+  "Education": "Bachelors",
+  "JoiningYear": 2013,
+  "City": "Pune",
+  "PaymentTier": 1,
+  "Age": 28,
+  "Gender": "Female",
+  "EverBenched": "No",
+  "ExperienceInCurrentDomain": 3
+}
+```
+3. Publish this data to Apache Kafka (dss-employee topic).
+
+### Python Kafka Consumer
+1. Consume messages from dss-employee topic.
+2. Apply the following business logic:
+```shell
+data["HighRiskEmployee"] = 1 if (data["ExperienceInCurrentDomain"] < 2 and data["Age"] < 30 and data["LeaveOrNot"] == 1) else 0
+
+```
+3. Publish the processed data to dss-employee-processed topic.
+
+### Kafka Consumer in Node.js
+1. Listen for processed employee data on dss-employee-processed topic.
+2. Store the processed data in an in-memory JSON array.
+3. Provide an endpoint (GET /api/employees/processed) to retrieve processed employee data.
+
+### Web Interface (jQuery)
+1. Build a simple HTML page with a form to submit employee data.
+2. Use jQuery and AJAX to:
+3. Submit employee data via POST /api/employee.
+4. Fetch and display processed employee data from GET /api/employees/processed.
+
+### **Additional Challenges (Optional)**
+
+- **Add database support**.
