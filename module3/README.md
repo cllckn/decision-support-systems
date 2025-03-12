@@ -1749,6 +1749,8 @@ and Python (confluent-kafka).
 
 * Figure: Overview of the system
 
+![](../resources/figures/web-app-kafka-integration.png)
+
 
 
 #### Algorithm Overview
