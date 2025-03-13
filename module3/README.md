@@ -1,9 +1,5 @@
 # Module 3: Web Applications And Web Services
 
-
-
-
-
 ## Part 1: Fundamentals Of Web Applications And Web Services
 
 There are several services on the Internet, and the **Web (World Wide Web)** is one of the most widely used. The web consists of websites, web pages, and online resources that people can access using a web browser.
@@ -1739,6 +1735,48 @@ const runConsumer = async () => {
 runConsumer().catch(console.error);
 
 ```
+
+* /part7/simple-consumer.py
+```shell
+from confluent_kafka import Consumer, KafkaError
+
+# Kafka broker configuration
+conf = {
+    'bootstrap.servers': 'localhost:9092',  # Kafka broker address
+    'group.id': 'my-group',                 # Consumer group ID
+    'auto.offset.reset': 'latest'         # Start reading from the beginning of the topic
+}
+
+# Initialize a Kafka consumer
+consumer = Consumer(conf)
+
+# Subscribe to the 'dss-test-topic1' topic
+consumer.subscribe(['dss-test-topic1'])
+
+# Poll for messages
+try:
+    while True:
+        msg = consumer.poll(timeout=1.0)  # Wait for messages
+        if msg is None:
+            continue
+        if msg.error():
+            if msg.error().code() == KafkaError._PARTITION_EOF:
+                # End of partition event
+                print(f"Reached end of partition {msg.partition()}")
+            else:
+                print(f"Error: {msg.error()}")
+        else:
+            # Print the message key and value
+            print(f"Consumed: key={msg.key()}, value={msg.value().decode('utf-8')}")
+except KeyboardInterrupt:  # catch "Ctrl + C" interrupt
+    print("Consumer interrupted")
+finally:
+    # Close the consumer
+    consumer.close()
+```
+
+
+* Implement the Node.js Python integration given above
 
 
 
