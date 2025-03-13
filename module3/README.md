@@ -1776,7 +1776,7 @@ finally:
 ```
 
 
-* Implement the Node.js Python integration given above
+* Implement the Node.js-Python integration given above
 
 
 
