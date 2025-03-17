@@ -43,9 +43,7 @@ The course will cover the following topics:
 * jQuery for Advanced DOM Manipulation and Dynamic Forms
 * Authentication with JWT (JSON Web Tokens)
 * Securing Web Applications and APIs
-* Basics of Interactive Visualizations
 * Integrating Visualization Components into Web Applications
-* Designing user interfaces for DSS
 * Hands-on exercises
 
 ### Module 5: Machine Learning for Decision Support
@@ -54,13 +52,13 @@ The course will cover the following topics:
 * Support Vector Machines (SVM)
 * K-Means Clustering
 * Artificial Neural Networks (ANN):
-* Basics of ANN and their role in decision-making
-* Building a simple ANN using Python (TensorFlow/Keras)
+  * Basics of ANN and their role in decision-making
+  * Building a simple ANN using Python (TensorFlow/Keras)
 * Hands-on exercises
 
 ### Module 6: Integrating Components into a DSS
 * Combining data processing, machine learning, and visualization
-* Case studies: Building a DSS for a real-world problem (e.g., healthcare diagnostics, financial forecasting)
+* Case Study: End-to-End Development of a Decision Support System for a Real-World Problem
 * Best practices for deploying and maintaining DSS
 * Hands-on exercises
 
@@ -70,17 +68,17 @@ Students will be evaluated based on the following components:
 
 | **Component**                  | **Weight** |
 |--------------------------------|-----------|
-| Assignment 1 & Oral Examination |        |
-| Assignment 2 & Oral Examination |        |
-| Final Project & Oral Examination |        |
+| Assignment 1 & Oral Examination |       |
+| Assignment 2 & Oral Examination |       |
+| Final Project & Oral Examination |       |
 
 ## Assignments and Exams Schedule  
 
-| **Assignment**   | **Oral Exam Date**     | **Due Date** |
-|-----------------|------------------------|--------------|
-| Assignment 1   | 27.02.2025 10:30-12:20 | Week 6       |
-| Assignment 2   | TBA                    | Week 11      |
-| Final Project  | TBA                    | During Final Exams      |
+| **Assignment**   | **Oral Exam Date**     | **Due Date**       |
+|-----------------|------------------------|--------------------|
+| Assignment 1   | 27.02.2025 10:30-12:20 | Week 6             |
+| Assignment 2   | TBA                    | Week 12            |
+| Final Project  | TBA                    | During Final Exams |
 
 
 ### Course Policies
