@@ -1,0 +1,16 @@
+# curl -X GET http://localhost:4000/client/products
+GET http://localhost:4000/client/products
+
+###
+
+# curl -X POST http://localhost:4000/client/products
+#     -H "Content-Type: application/json"
+#     -d '{"name": "Tablet", "price": 299.99}'
+POST http://localhost:4000/client/products
+Content-Type: application/json
+
+{
+  "name": "Tablet",
+  "price": 299.99
+}
+
