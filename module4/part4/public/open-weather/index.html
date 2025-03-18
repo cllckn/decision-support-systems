@@ -4,17 +4,38 @@
   <title>Weather Visualization</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
-<body>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
 
-<input type="text" id="cityInput" placeholder="Enter city name">
-<button id="getWeatherBtn">Get Weather</button>
+<!-- Input & Button Section -->
+<div class="mb-6 flex space-x-3">
+  <input type="text" id="cityInput" placeholder="Enter city name"
+         class="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+  <button id="getWeatherBtn"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-400">
+    Get Weather
+  </button>
+</div>
 
+<!-- Chart & Weather Data Container -->
+<div class="flex flex-col md:flex-row w-full max-w-4xl space-y-4 md:space-y-0 md:space-x-6">
 
-<div id="chart"></div>
+  <!-- Chart Section -->
+  <div id="chart" class="flex-1 bg-white p-6 rounded-lg shadow-md text-center">
+    <h2 class="text-lg font-semibold text-gray-700">Weather Chart</h2>
+    <p class="text-gray-500">Chart will be displayed here</p>
+  </div>
 
-<div >
-  <textarea id="weatherData" rows="10" cols="50"></textarea>
+  <!-- Weather Data Section -->
+  <div class="flex-1">
+            <textarea id="weatherData" rows="10"
+                      class="w-full h-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      placeholder="Weather data will be displayed here...">
+            </textarea>
+  </div>
+
 </div>
 
 <script>
