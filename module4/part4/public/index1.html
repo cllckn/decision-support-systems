@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApexCharts with jQuery AJAX</title>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+<div id="chart"></div>
+
+<script>
+    $(function() {
+        // Make an AJAX request to fetch data
+        $.ajax({
+            url: 'https://jsonplaceholder.typicode.com/posts', // Example API endpoint
+            type: 'GET',
+            success: function(data) {
+                // Process the data for the chart
+                const chartData = data.slice(0, 10).map(post => post.title.length); // Use post title's length as data
+                const categories = data.slice(0, 10).map(post => `Post ${post.id}`); // Use post id as categories
+
+                // Initialize ApexCharts
+                const options = {
+                    chart: {
+                        //type: 'bar', // Column chart
+                        type: 'line', // Line chart
+                        height: 350
+                    },
+                    series: [{
+                        name: 'Title Length',
+                        data: chartData // Data for the chart
+                    }],
+                    xaxis: {
+                        categories: categories // Categories for the x-axis
+                    },
+                    title: {
+                        text: 'Top 10 Post Title Length',
+                        align: 'center'
+                    }
+                };
+
+                const chart = new ApexCharts(document.querySelector("#chart"), options);
+                chart.render();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching data:', textStatus, errorThrown);
+            }
+        });
+    });
+</script>
+</body>
+</html>
