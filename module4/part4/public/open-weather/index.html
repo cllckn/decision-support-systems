@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather Visualization</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+
+<input type="text" id="cityInput" placeholder="Enter city name">
+<button id="getWeatherBtn">Get Weather</button>
+
+
+<div id="chart"></div>
+
+<div >
+  <textarea id="weatherData" rows="10" cols="50"></textarea>
+</div>
+
+<script>
+  $(function() {
+    const apiKey = "dbeae736b75d7fd33b1fc360ba4a0cb3";
+    let chart;
+
+    $("#getWeatherBtn").click(function() {
+      const cityName = $("#cityInput").val();
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
+
+      $.ajax({
+        url: apiUrl,
+        type: "GET",
+        success: function(data) {
+          $("#weatherData").empty();
+          $("#weatherData").text(JSON.stringify(data, null, 2));
+
+          const temperature = data.main.temp;
+          const humidity = data.main.humidity;
+          const country=data.sys.country;
+          const cityName = data.name;
+          const date = new Date();
+          const formattedDate = date.toLocaleDateString();
+
+          /*const options = {
+            chart: {
+              type: 'line',
+              height: 350
+            },
+            series: [{
+              name: 'Temperature (°C)',
+              data: [{x: formattedDate, y: temperature}]
+            }],
+            xaxis: {
+              categories: [formattedDate]
+            },
+            title: {
+              text: `Current Weather in ${cityName}`,
+              align: 'center'
+            }
+          };*/
+          const options = {
+            chart: {
+              type: 'radialBar',
+              height: 350
+            },
+            series: [temperature],
+            labels: ['Temperature (°C)'],
+            title: {
+              text: `Current Temperature in ${cityName}`,
+              align: 'center'
+            },
+            plotOptions: {
+              radialBar: {
+                hollow: {
+                  margin: 15,
+                  size: "70%"
+                },
+                dataLabels: {
+                  show: true,
+                  value: {
+                    fontSize: "22px",
+                    show: true
+                  },
+                  total: {
+                    show: false
+                  }
+                }
+              }
+            }
+          };
+
+          if (chart) {
+            chart.destroy();
+          }
+
+          chart = new ApexCharts(document.querySelector("#chart"), options);
+          chart.render();
+        },
+        error: function() {
+          alert("Error fetching weather data.");
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
