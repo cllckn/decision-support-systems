@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather Visualization</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body class="bg-amber-50 p-6 flex flex-col items-center">
+
+<!-- Input Section -->
+<div class="mb-6 w-full max-w-md text-center">
+  <input type="text" id="cityInput" placeholder="Enter city name" required
+         class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+  <button id="getWeatherBtn"
+          class="mt-3 w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 transition">
+    Get Weather
+  </button>
+</div>
+
+<!-- Weather Data Section -->
+<div class="flex w-full max-w-4xl space-x-4" id="weatherDisplay">
+  <!-- Left Column -->
+  <div id="chart" class="w-1/2 p-6 text-center font-bold text-lg shadow-lg  border border-gray-300 rounded-md">
+
+  </div>
+
+  <!-- Right Column -->
+  <div id="chart1" class="w-1/2 p-6 text-center font-bold text-lg shadow-lg  border border-gray-300 rounded-md">
+
+  </div>
+</div>
+
+<!-- Weather Data Output -->
+<div class="mt-6 w-full max-w-4xl">
+  <textarea id="weatherData" rows="10" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Weather details will appear here..."></textarea>
+</div>
+<script>
+  $(function() {
+    const apiKey = "dbeae736b75d7fd33b1fc360ba4a0cb3";
+    let chart;
+    let chart1;
+    $("#weatherDisplay").hide();
+
+
+    $("#getWeatherBtn").click(function() {
+      const cityName = $("#cityInput").val();
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
+
+      $.ajax({
+        url: apiUrl,
+        type: "GET",
+        success: function(data) {
+          $("#weatherDisplay").fadeIn(1000);
+          $("#weatherData").empty();
+          $("#weatherData").text(JSON.stringify(data, null, 2));
+
+          const temperature = data.main.temp;
+          const humidity = data.main.humidity;
+          const country=data.sys.country;
+          const cityName = data.name;
+          const date = new Date();
+          const formattedDate = date.toLocaleDateString();
+          //alert("country name: " + country+ " temperature: " + temperature + " humidity: " + humidity)
+
+          const options = {
+            chart: {
+              type: 'radialBar',
+              height: 350
+            },
+            series: [temperature],
+            labels: ['Temperature (°C)'],
+            colors: ['#ff921e'],
+            title: {
+              text: `Current Temperature in ${cityName}`,
+              align: 'center'
+            },
+            plotOptions: {
+              radialBar: {
+                hollow: {
+                  margin: 15,
+                  size: "70%"
+                },
+                dataLabels: {
+                  show: true,
+                  value: {
+                    fontSize: "22px",
+                    show: true
+                  },
+                  total: {
+                    show: false
+                  }
+                }
+              }
+            }
+          };
+
+          const options1 = {
+            chart: {
+              type: 'radialBar',
+              height: 350
+            },
+            series: [humidity],
+            labels: ['Humidity (%)'],
+            colors: ['#1E90FF'],
+            title: {
+              text: `Current Humidity in ${cityName}`,
+              align: 'center'
+            },
+            plotOptions: {
+              radialBar: {
+                hollow: {
+                  margin: 15,
+                  size: "70%"
+                },
+                dataLabels: {
+                  show: true,
+                  value: {
+                    fontSize: "22px",
+                    show: true
+                  },
+                  total: {
+                    show: false
+                  }
+                }
+              }
+            }
+          };
+
+
+          if (chart) {
+            chart.destroy();
+          }
+          if (chart1) {
+            chart1.destroy();
+          }
+
+          chart = new ApexCharts(document.querySelector("#chart"), options);
+          chart.render();
+          chart1 = new ApexCharts(document.querySelector('#chart1'), options1);
+          chart1.render();
+        },
+        error: function() {
+          alert("Error fetching weather data.");
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
