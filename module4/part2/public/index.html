@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Product Form with Database</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-6 bg-gray-100 flex items-center justify-center min-h-screen">
+<!-- flex: Enables Flexbox.
+items-center: Centers content vertically.
+justify-center: Centers content horizontally.
+min-h-screen: Ensures the body takes up at least the full height of the viewport.
+-->
+
+<div class="max-w-lg bg-white p-6 rounded-lg shadow-md">
+    <!-- max-w-lg → Sets the maximum width to lg (large), which is 32rem (512px).-->
+
+    <h2 class="text-xl font-bold mb-4">Purchase a Product</h2>
+
+    <form id="productForm">
+        <!-- Select Product -->
+        <label class="block mb-2 font-semibold">Select Product:</label>
+        <select id="productSelect" class="w-full p-2 border rounded">
+            <option value="">-- Choose --</option>
+        </select>
+
+        <!-- Display Price & Category -->
+        <div id="productDetails" class="mt-3 hidden">
+            <p><strong>Price:</strong> <span id="productPrice"></span></p>
+            <p><strong>Category:</strong> <span id="productCategory"></span></p>
+        </div>
+
+        <!-- Payment Method (Radio) -->
+        <label class="block mt-4 font-semibold">Payment Method:</label>
+        <label class="block"><input type="radio" name="payment" value="credit"> Credit Card</label>
+        <label class="block"><input type="radio" name="payment" value="paypal"> PayPal</label>
+
+        <!-- Warranty (Checkbox) -->
+        <label class="block mt-4 font-semibold">
+            <input type="checkbox" id="warranty"> Add 1-Year Warranty ($29.99)
+        </label>
+
+        <!-- Buyer Name (Input) -->
+        <label class="block mt-4 font-semibold">Your Name:</label>
+        <input type="text" id="buyerName" class="w-full p-2 border rounded" placeholder="Enter your name">
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full mt-4 bg-blue-500 text-white p-2 rounded">
+            Submit Order
+        </button>
+    </form>
+
+    <!-- Order Summary -->
+    <div id="orderSummary" class="mt-6 hidden p-4 bg-green-100 border border-green-500 rounded">
+        <h3 class="font-bold">Order Summary</h3>
+        <p id="summaryText"></p>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Fetch products from database
+        $.get("http://localhost:3000/products", function (products) {
+            products.forEach(product => {
+                $("#productSelect").append(`<option value="${product.id}" data-price="${product.price}" data-category="${product.category}">${product.name}</option>`);
+            });
+        });
+
+        // Update Product Details
+        $("#productSelect").change(function () {
+            let selectedOption = $(this).find(":selected");
+            let price = selectedOption.data("price");
+            let category = selectedOption.data("category");
+
+            if (price && category) {
+                $("#productPrice").text(`$${price.toFixed(2)}`);
+                $("#productCategory").text(category);
+                $("#productDetails").removeClass("hidden");
+            } else {
+                $("#productDetails").addClass("hidden");
+            }
+        });
+
+        // Handle Form Submission
+        $("#productForm").submit(function (e) {
+            e.preventDefault();
+            let productId = $("#productSelect").val();
+            let productName = $("#productSelect option:selected").text();
+            let name = $("#buyerName").val();
+            let payment = $("input[name='payment']:checked").val();
+            let warranty = $("#warranty").is(":checked") ? "Yes" : "No";
+
+            if (!productId || !name || !payment) {
+                alert("Please fill all required fields.");
+                return;
+            }
+
+            // Display Order Summary
+            $("#summaryText").html(`
+                    <strong>Buyer:</strong> ${name} <br>
+                    <strong>Product:</strong> ${productName} <br>
+                    <strong>Payment:</strong> ${payment} <br>
+                    <strong>Warranty:</strong> ${warranty}
+                `);
+            $("#orderSummary").fadeIn(1000);
+
+        });
+    });
+</script>
+</body>
+</html>
