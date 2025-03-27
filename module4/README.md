@@ -369,6 +369,35 @@ Multifactor Authentication (MFA) is a security method that requires users to ver
 
 * /module4/part3/
 
+```sql
+CREATE DATABASE dss;
+----------------------------
+create table if not exists public.users
+(
+  id        serial
+    primary key,
+  username  varchar(50)  not null
+    unique,
+  password  varchar(255) not null,
+  firstname varchar(50)  not null,
+  lastname  varchar(50)  not null,
+  role      smallint
+);
+
+----------------------------
+create table if not exists public.customers
+(
+  id    serial
+    primary key,
+  name  varchar(50) not null,
+  email varchar(50),
+  phone varchar(50),
+  city  varchar(50)
+);
+
+
+```
+
 
 ####  Application Summary
 
@@ -433,7 +462,7 @@ This is a **Node.js-based web application** with user authentication, role-based
 
 
 
-  
+
 
 ---
 ## **Hands-on Exercise2**
