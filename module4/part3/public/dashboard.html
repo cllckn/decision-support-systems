@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script defer src="./js/scripts.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+  <script>
+    // Redirect immediately before any content is displayed
+    (function() {
+      const token = localStorage.getItem("token"); // Retrieve token
+
+      if (!token) {
+        if (confirm("Session expired! Please log in again.")) {
+          window.location.href = "login.html";
+        }
+        return;
+      }
+
+      try {
+        const decodedToken = jwt_decode(token); // Decode token
+        const currentTime = Math.floor(Date.now() / 1000); // Current timestamp
+
+        // Check if token is expired
+        if (decodedToken.exp && decodedToken.exp < currentTime) {
+          localStorage.removeItem("token"); // Remove expired token
+          if (confirm("Session expired! Please log in again.")) {
+            window.location.href = "login.html";
+          }
+          return;
+        }
+
+        // Check if user role is not admin (role = 1)
+        if (decodedToken.role !== 1) {
+          if (confirm("Unauthorized access! Redirecting to login.")) {
+            window.location.href = "login.html";
+          }
+          return;
+        }
+
+        // Allow access and set user details
+        $(document).ready(function() {
+          $("#userinfo").text(decodedToken.username + " - " + decodedToken.firstname + " " + decodedToken.lastname);
+          $("#username").text(decodedToken.username);
+        });
+
+      } catch (error) {
+        localStorage.removeItem("token"); // Remove invalid token
+        if (confirm("Invalid session! Please log in again.")) {
+          window.location.href = "login.html";
+        }
+      }
+    })();
+
+  </script>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen"> <!--
+        Flex container with column direction, minimum height of the viewport,
+        and light gray background
+    -->
+
+
+<!-- Navbar -->
+<nav class="bg-blue-600 text-white p-4 shadow-md"> <!--
+        Sets the background color to blue (Tailwind's blue-600 shade),
+        text color to white, adds padding of 1rem (4 * 0.25rem),
+        and applies a medium-sized shadow
+    -->
+  <div class="max-w-7xl mx-auto flex justify-between items-center"> <!--
+            Sets a maximum width of 80rem, centers the content horizontally,
+            enables flexbox layout, distributes space evenly between items,
+            and vertically aligns items to the center
+        -->
+    <h1 class="text-xl font-bold">DSS Admin Dashboard</h1> <!-- Sets font size to extra large (1.25rem) and font weight to bold -->
+    <ul class="hidden md:flex space-x-4"> <!--
+                Hides the list by default, displays as flex on medium screens and larger,
+                and adds horizontal space of 1rem (4 * 0.25rem) between items
+            -->
+      <li><a href="#" class="hover:underline">Home</a></li> <!-- Applies underline on hover -->
+      <li><a href="#" class="hover:underline">About</a></li> <!-- Applies underline on hover -->
+      <li><a href="#" class="hover:underline">Contact</a></li> <!-- Applies underline on hover -->
+    </ul>
+    <a href="#"
+       class="hover:text-lg transition-all duration-300 ease-in-out
+              hover:text-blue-500 hover:bg-gray-200 px-1 rounded-md block"
+       id="userinfo">
+      User Info
+    </a>
+    <button class="md:hidden text-white focus:outline-none" id="menu-btn">☰</button> <!--
+                Hides the button on medium screens and larger, sets text color to white,
+                and removes default focus outline
+            -->
+  </div>
+</nav>
+
+<!-- Sidebar + Main Content Container -->
+<div class="flex flex-1 "> <!-- Enables flexbox layout and spreads height to all screen -->
+<!--  <div class="flex h-screen "> &lt;!&ndash; Enables flexbox layout and sets height to remaining 100% of screen height &ndash;&gt;-->
+
+    <!-- Sidebar -->
+  <aside class="bg-gray-800 text-white w-64 space-y-6 py-6 px-4 hidden md:block">
+    <h2 class="text-xl font-semibold">Menu</h2>
+    <nav>
+      <a href="#" class="block py-2 px-4 hover:bg-gray-700">Product Management</a>
+
+      <!-- User Management with Submenu -->
+      <div class="group">
+        <a href="#" class="block underline py-2 px-4 hover:bg-gray-700">User Management</a>
+        <div class="ml-4 hidden group-hover:block">
+          <a href="#" id="customerListBtn" class="block underline py-2 px-4 hover:bg-gray-600">Customer List</a>
+        </div>
+      </div>
+
+      <a href="#" class="block py-2 px-4 hover:bg-gray-700">Settings</a>
+    </nav>
+
+    <!-- Logout Button -->
+    <button id="logoutBtn" class="w-full bg-red-500 text-white py-2 rounded mt-4">Logout</button>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 p-6">
+    <div class=" w-full bg-white p-6 rounded-lg shadow-md text-center">
+      <h2 class="text-xl font-bold mb-4">Welcome, <span id="username"></span>!</h2>
+      <p class="text-gray-600">This is your dashboard.</p>
+
+    </div>
+
+    <!-- Customer List Table -->
+    <div id="customerListContainer" class="hidden mt-6">
+      <h2 class="text-xl font-semibold mb-4">Customer List</h2>
+      <table class="w-full border-collapse border border-gray-300">
+        <thead>
+        <tr class="bg-gray-200">
+          <th class="border border-gray-300 px-4 py-2">ID</th>
+          <th class="border border-gray-300 px-4 py-2">Name</th>
+          <th class="border border-gray-300 px-4 py-2">Email</th>
+          <th class="border border-gray-300 px-4 py-2">Phone</th>
+          <th class="border border-gray-300 px-4 py-2">City</th>
+        </tr>
+        </thead>
+        <tbody id="customerListBody">
+        <!-- Customer rows will be added here -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+</div>
+
+<!-- Footer -->
+<footer class="w-full bg-gray-900 text-white text-center py-4 mt-auto"> <!--
+        Sets background color to very dark gray (Tailwind's gray-900 shade),
+        text color to white, centers text horizontally, adds vertical padding of 1rem,
+        and sets margin top to auto
+    -->
+  <p>© 2025 DSS Dashboard. All rights reserved.</p>
+</footer>
+
+</body>
+
+</html>

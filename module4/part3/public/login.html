@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+    <script src="./js/scripts.js"></script>
+    <script>
+        $(function() {
+            const token = localStorage.getItem("token");
+            //alert("Token: " + token);
+
+            if (token) {
+                try {
+                    // Decode token payload
+                    const decoded = jwt_decode(token);
+
+                    const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+
+                    // Check if token is expired
+                    if (decoded.exp && decoded.exp < currentTime) {
+                        alert("Session expired! Please log in again.");
+                        localStorage.removeItem("token"); // Remove expired token
+                        window.location.href = "login.html";
+                        return;
+                    }
+
+
+                    // Extract role from payload (assuming role is stored as number)
+                    const role = decoded.rol; // Check common casing variations
+
+                    // Redirect based on role
+                    switch(role) {
+                        case 1:
+                            window.location.href = "dashboard.html";
+                            break;
+                        case 2:
+                            window.location.href = "registered-user.html";
+                            break;
+                        default:
+                            window.location.href = "unauthorized.html";
+                    }
+
+                } catch (error) {
+                    console.error("Token decoding failed:", error);
+                    alert("Invalid token!");
+
+                }
+            }
+        });
+
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-screen flex items-center justify-center bg-gray-100">
+<div class="form max-w-sm w-full bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-xl font-bold mb-4">Login</h2>
+    <input id="username" type="text" placeholder="Username" class="w-full p-2 border rounded mb-2">
+    <input id="password" type="password" placeholder="Password" class="w-full p-2 border rounded mb-4">
+    <button id="loginBtn" class="w-full bg-blue-500 text-white py-2 rounded">Login</button>
+    <p id="errorMsg" class="text-red-500 mt-2 hidden"></p>
+</div>
+</body>
+</html>
