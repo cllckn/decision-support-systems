@@ -233,7 +233,7 @@ min-h-screen: Ensures the body takes up at least the full height of the viewport
 
 
 
-## Part 3: Authentication and Authorization with JWT (JSON Web Tokens)
+## Part 3: Access Control: Authentication and Authorization with JWT (JSON Web Tokens)
 
 ### Role Based Access Control
 
@@ -241,7 +241,7 @@ min-h-screen: Ensures the body takes up at least the full height of the viewport
 
 * **Actors (Users/Entities)**: Humans, software, systems, or devices that interact (accessing, modifying, executing, or any other operation on the resource) with the system.
 
-* **Resources** is the object or asset being interacted with.
+* **Resources** are the objects or assets being interacted with.
   * Operating System: Resources such as memory (read, write), files (read, write, execute), directories, and ports (read, write). 
   * Database: Resources like tables (insert, update, select), views, stored procedures, and functions. 
   * Application Software: Resources such as interfaces (access), web pages (access), and functions (execute).
@@ -254,8 +254,8 @@ min-h-screen: Ensures the body takes up at least the full height of the viewport
 
 
 * Extensively used approach is Role-Based Access Control (RBAC):
-  * Permissions are typically assigned to roles rather than individual users to simplify management. 
-  * Users or entities are then assigned to these roles, inheriting the associated permissions.
+  * Permissions are typically assigned to roles rather than individual actors to simplify management. 
+  * Actors are then assigned to these roles, inheriting the associated permissions.
   * Ensures scalability and ease of administration in systems with many users and resources.
 
 
@@ -264,7 +264,7 @@ min-h-screen: Ensures the body takes up at least the full height of the viewport
 
 | **Actors**     | M<------->N | **Roles**       | M<------->N | **Permissions** | M<------->1 | **Resources**      |
 |----------------|-------------|-----------------|-------------|-----------------|-------------|--------------------|
-| user,system... | M<------->1 | admin,editor... | M<------->1 | read,access...  | M<------->1 | Table, web page... |
+| user,system... | M<------->N | admin,editor... | M<------->N | read,access...  | M<------->1 | Table, web page... |
 
 
 
@@ -336,6 +336,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsIm5hbWU
 
 The above JWT is encoded but not encrypted. Anyone can decode it to see the header and payload.
 
+* [jwt debugger](https://jwt.io/) 
 
 
 ### **Key Properties of JWT?**
@@ -375,10 +376,9 @@ This is a **Node.js-based web application** with user authentication, role-based
 
 #####  Main Features
 
-✅ **Role-Based Redirection**: Redirects users to different dashboards based on their role.  
-✅ **Session Expiry Handling**: Alerts users and redirects them to login if the session expires.  
-✅ **Secure API Calls**: Uses `Authorization: Bearer <token>` in requests.  
-✅ **Customer Management**: Admins can fetch customer data via `/customers`.
+* Redirects users to different dashboards based on their role.  
+* Alerts users and redirects them to login if the session expires.  
+* Secure API Calls- uses `Authorization: Bearer <token>` in requests.  
 
 
 
