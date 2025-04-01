@@ -25,11 +25,27 @@ Enhance the existing product selection application by integrating a customer sel
     - Fetch and display customer data dynamically.
     - Handle form submission via AJAX.
 
+---
+
+## **Hands-on Exercise2**
+
+Introducing the moderator role with id:3. Moderators will have distinct permissions, separate from admins and registered users.
+
+### Steps to Implement
+
+* Design Moderator Page – Copy registered-user.html, rename it to moderator.html, and update relevant UI elements.
+
+* Modify Login Handling – Update the authentication function to handle moderator login.
+
+* Adjust Access Control – Ensure only users with role ID 3 can access moderator.html.
+
+* Allow Customer Listing – Update the relevant route in the server to allow moderators to retrieve and list customers.
+
 
 ---
 
 
-# **Hands-On Exercise 2: Extending the Application in /module4/part3 With User Profile Management Feature**
+# **Hands-On Exercise 3: Extending the Application in /module4/part3 (or Exercise 2) With User Profile Management Feature**
 
 
 ## **Assignment Overview**
