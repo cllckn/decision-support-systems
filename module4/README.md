@@ -463,7 +463,7 @@ This is a **Node.js-based web application** with user authentication, role-based
 
 #####  Routes & Endpoints
 
-###### 🔹 Public Routes
+######  Public Routes
 | HTTP Method | Endpoint      | Description |
 |------------|--------------|-------------|
 | **POST**   | `/register`   | Registers a new user (username, password, first name, last name, role) |
@@ -471,7 +471,7 @@ This is a **Node.js-based web application** with user authentication, role-based
 
 
 
-###### 🔹 Protected Routes (Requires Bearer Token in Headers)
+######  Protected Routes (Requires Bearer Token in Headers)
 | HTTP Method | Endpoint      | Description |
 |------------|--------------|-------------|
 | **GET**    | `/dashboard`  | Verifies token and returns a welcome message with the username |
@@ -479,9 +479,9 @@ This is a **Node.js-based web application** with user authentication, role-based
 
 
 
-##### 🖥️ Web Pages & Access Control
+##### Web Pages & Access Control
 
-###### 🔹 Page Structure
+######  Page Structure
 | Page | Description | Access |
 |------|-------------|--------|
 | `login.html` | User login page | Public |
@@ -491,7 +491,7 @@ This is a **Node.js-based web application** with user authentication, role-based
 
 
 
-##### 🛑 Authentication & Authorization
+##### Authentication & Authorization
 
 - **JWT Tokens**: Stored in `localStorage` after login.
 - **Token Expiry**: Tokens expire in **1 hour** (`expiresIn: "1h"`).
