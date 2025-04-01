@@ -28,7 +28,7 @@
         * [🛑 Authentication & Authorization](#-authentication--authorization)
   * [**Hands-on Exercise2**](#hands-on-exercise2)
     * [Steps to Implement](#steps-to-implement)
-  * [## **Hands-on Exercise3**](#-hands-on-exercise3)
+  * [Hands-on Exercise3](#hands-on-exercise3)
   * [Part 4: Integrating Visualization Components into Web Applications](#part-4-integrating-visualization-components-into-web-applications)
 <!-- TOC -->
 
@@ -519,12 +519,12 @@ Introducing the moderator role with id:3. Moderators will have distinct permissi
 * Allow Customer Listing – Update the relevant route in the server to allow moderators to retrieve and list customers.
 
 
----
 
 
+
 ---
-## **Hands-on Exercise3**
----
+## Hands-on Exercise3
+
 
 
 ## Part 4: Integrating Visualization Components into Web Applications
