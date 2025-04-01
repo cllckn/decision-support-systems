@@ -389,6 +389,7 @@ create table if not exists public.users
   role      smallint
 );
 
+
 ----------------------------
 create table if not exists public.customers
 (
@@ -400,6 +401,10 @@ create table if not exists public.customers
   city  varchar(50)
 );
 
+----------------------------
+INSERT INTO customers (name, email, phone, city)
+VALUES ('JR', 'jr@x.com', '1234', 'Astana'),
+       ('Jane', 'jane@x.com', '6666', 'Petropavlovsk');
 
 ```
 
@@ -466,11 +471,27 @@ This is a **Node.js-based web application** with user authentication, role-based
 
 
 
+---
+## **Hands-on Exercise2**
 
+Introducing the moderator role with id:3. Moderators will have distinct permissions, separate from admins and registered users.
+
+### Steps to Implement
+
+* Design Moderator Page – Copy registered-user.html, rename it to moderator.html, and update relevant UI elements.
+
+* Modify Login Handling – Update the authentication function to handle moderator login.
+
+* Adjust Access Control – Ensure only users with role ID 3 can access moderator.html.
+
+* Allow Customer Listing – Update the relevant route in the server to allow moderators to retrieve and list customers.
 
 
 ---
-## **Hands-on Exercise2**
+
+
+---
+## **Hands-on Exercise3**
 ---
 
 
@@ -487,3 +508,4 @@ must first be imported into the project. By leveraging ApexCharts, developers ca
 visual representations, improving the overall user experience.
 
 * https://apexcharts.com/javascript-chart-demos/
+
