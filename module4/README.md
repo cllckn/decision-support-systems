@@ -1,4 +1,36 @@
 # Module 4: Advanced User Interaction, Visualization, and Security
+<!-- TOC -->
+* [Module 4: Advanced User Interaction, Visualization, and Security](#module-4-advanced-user-interaction-visualization-and-security)
+  * [Part 1: Integrating Software Systems Using REST APIs](#part-1-integrating-software-systems-using-rest-apis)
+    * [Case Study 1](#case-study-1)
+    * [Case Study 2](#case-study-2)
+  * [Part 2: Dynamic Forms](#part-2-dynamic-forms)
+  * [**Hands-on Exercise1**](#hands-on-exercise1)
+  * [Part 3: Access Control: Authentication and Authorization with JWT (JSON Web Tokens)](#part-3-access-control-authentication-and-authorization-with-jwt-json-web-tokens)
+    * [3.1.Role Based Access Control](#31role-based-access-control)
+    * [3.2.JWT (JSON Web Token)](#32jwt-json-web-token)
+      * [**How Does JWT Work?**](#how-does-jwt-work)
+      * [**Structure of a JWT**](#structure-of-a-jwt)
+      * [**Key Properties of JWT?**](#key-properties-of-jwt)
+    * [3.3.Multifactor Authentication (MFA)](#33multifactor-authentication-mfa)
+      * [**Factors of Authentication**](#factors-of-authentication)
+      * [**Why Use MFA?**](#why-use-mfa)
+      * [**Example MFA Process**](#example-mfa-process)
+    * [3.4.A Case Study on Authentication and Authorization](#34a-case-study-on-authentication-and-authorization)
+      * [Application Summary](#application-summary)
+        * [Main Features](#main-features)
+        * [Technologies Used](#technologies-used)
+        * [Routes & Endpoints](#routes--endpoints)
+          * [🔹 Public Routes](#-public-routes)
+          * [🔹 Protected Routes (Requires Bearer Token in Headers)](#-protected-routes-requires-bearer-token-in-headers)
+        * [🖥️ Web Pages & Access Control](#-web-pages--access-control)
+          * [🔹 Page Structure](#-page-structure)
+        * [🛑 Authentication & Authorization](#-authentication--authorization)
+  * [**Hands-on Exercise2**](#hands-on-exercise2)
+    * [Steps to Implement](#steps-to-implement)
+  * [## **Hands-on Exercise3**](#-hands-on-exercise3)
+  * [Part 4: Integrating Visualization Components into Web Applications](#part-4-integrating-visualization-components-into-web-applications)
+<!-- TOC -->
 
 
 ## Part 1: Integrating Software Systems Using REST APIs
@@ -350,7 +382,7 @@ However, data integrity and tamper prevention are ensured because it is signed, 
 - **Scalable** → Works well in distributed systems.
 
 
-### 3.4.Multifactor Authentication (MFA)
+### 3.3.Multifactor Authentication (MFA)
 
 Multifactor Authentication (MFA) is a security method that requires users 
 to verify their identity using multiple factors before granting access.
@@ -370,7 +402,7 @@ to verify their identity using multiple factors before granting access.
 2. A one-time code is sent via SMS or authentication app.
 3. User enters the code to complete login.
 
-### A Case Study on Authentication and Authorization
+### 3.4.A Case Study on Authentication and Authorization
 
 * /module4/part3/
 
