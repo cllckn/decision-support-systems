@@ -235,7 +235,7 @@ min-h-screen: Ensures the body takes up at least the full height of the viewport
 
 ## Part 3: Access Control: Authentication and Authorization with JWT (JSON Web Tokens)
 
-### Role Based Access Control
+### 3.1.Role Based Access Control
 
 * **Access Control** is the process of controlling the interaction of system actors with resources based on predefined rules, policies, and permissions.
 
@@ -246,7 +246,7 @@ min-h-screen: Ensures the body takes up at least the full height of the viewport
   * Database: Resources like tables (insert, update, select), views, stored procedures, and functions. 
   * Application Software: Resources such as interfaces (access), web pages (access), and functions (execute).
 
-* **Permissions** are specific rights granted to actors, such as read, write, execute, or delete.
+* **Permissions** are specific rights granted to actors over resources - such as read, write, execute, or delete.
 
 * **Authorization** is the process of granting or restricting permissions for actors to interact with specific resources within a system.
 
@@ -274,13 +274,15 @@ min-h-screen: Ensures the body takes up at least the full height of the viewport
 
 
 
-### **What is JWT?**
-JWT (JSON Web Token) is a compact, self-contained token used for securely transmitting information between parties as a JSON object. 
-It is commonly used for authentication and authorization.
+### 3.2.JWT (JSON Web Token)
+JWT (JSON Web Token) is a compact, self-contained token used for securely transmitting information between parties 
+as a JSON object. It is commonly used for authentication and authorization, relying on signing (not just encoding) 
+to ensure data integrity and prevent tampering. However, JWTs are not encrypted by default, so sensitive data should 
+not be stored in them unless encrypted separately.
 
----
 
-### **How Does JWT Work?**
+
+#### **How Does JWT Work?**
 1. **User Logs In** → Sends credentials to the server.
 2. **Server Generates JWT** → If valid, the server generates a JWT and signs it with a secret key.
 3. **Client Stores Token** → The JWT is stored (e.g., in local storage or cookies).
@@ -291,9 +293,9 @@ It is commonly used for authentication and authorization.
 
 `https://coredevsltd.com/articles/jwt-token-authentication-web-api/`
 
----
 
-### **Structure of a JWT**
+
+#### **Structure of a JWT**
 A JWT consists of three parts, separated by dots (`.`):  
 `Header.Payload.Signature`
 
@@ -317,11 +319,12 @@ A JWT consists of three parts, separated by dots (`.`):
 
 ```
 - **Signature** → Verifies the integrity of the token.
+  - base64UrlEncode(X) function encodes the X using Base64 URL encoding.
 
 ```plain
 
 HMACSHA256(
-    base64UrlEncode(header) + "." +
+    base64UrlEncode(header) + "." +  encodes the header using Base64 URL encoding.
     base64UrlEncode(payload),
     secret_key
 )
@@ -330,25 +333,27 @@ secret_key: my-secret-key-is-this-at-least-256-bits
 
 ```
 
-The JWT is:  
+The JWT generated based on the parameters above is:
 
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsIm5hbWUiOiJKYW5lIExlZSIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTcxMDAwMDAwMH0.zKrmHfgZQN-bYfiEHYvCoKdcJ_85gcay2-B4CtKSTxU
 
-The above JWT is encoded but not encrypted. Anyone can decode it to see the header and payload.
+The above JWT is encoded but not encrypted, meaning anyone can decode it to view the header and payload. 
+However, data integrity and tamper prevention are ensured because it is signed, not just encoded.
 
 * [jwt debugger](https://jwt.io/) 
 
 
-### **Key Properties of JWT?**
+#### **Key Properties of JWT?**
 - **Stateless** → No need to store sessions on the server.
 - **Compact** → Can be sent in headers (Authorization: `Bearer token`).
 - **Secure** → Supports signing and encryption.
 - **Scalable** → Works well in distributed systems.
 
 
-### **Multifactor Authentication (MFA)**
+### 3.4.Multifactor Authentication (MFA)
 
-Multifactor Authentication (MFA) is a security method that requires users to verify their identity using multiple factors before granting access.
+Multifactor Authentication (MFA) is a security method that requires users 
+to verify their identity using multiple factors before granting access.
 
 #### **Factors of Authentication**
 1. **Something You Know** → Password, PIN.
@@ -466,8 +471,6 @@ This is a **Node.js-based web application** with user authentication, role-based
 
 ---
 ## **Hands-on Exercise2**
-
-
 ---
 
 
@@ -484,4 +487,3 @@ must first be imported into the project. By leveraging ApexCharts, developers ca
 visual representations, improving the overall user experience.
 
 * https://apexcharts.com/javascript-chart-demos/
-
