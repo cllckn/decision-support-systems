@@ -8,7 +8,7 @@ const path = require("path");
 const app = express();
 const PORT = 3000;
 const SECRET_KEY = "my-secret-key-is-this-at-least-256-bits"; // Change this in production
-const SALT_ROUNDS = 10; // For bcrypt password hashing
+const SALT_ROUNDS = 10; // For bcrypt password hashing- Salting Makes Passwords Hard to Guess
 
 // Initialize PostgreSQL connection pool
 const pool = new Pool({
@@ -24,6 +24,8 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public"))); // Serve static files
 
 // Middleware to verify JWT from the request's Authorization header
+// Middlewares in Express.js act as interceptors that sit between the incoming request and the final route handler (or response).
+// They can modify, validate, or reject requests before they reach their destination.
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
@@ -35,10 +37,10 @@ const authenticateToken = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, SECRET_KEY);
-        req.user = decoded; // Store decoded user info in the request
-        next();
+        req.decodedToken = decoded; // Store decoded user info in the request
+        next() // Token is valid, proceed to the next middleware or route
     } catch (error) {
-        return res.status(403).json({ error: "Forbidden: Invalid token" });
+        return res.status(403).json({ error: "Forbidden: Invalid token" });// Token is not valid, respond with status code 403
     }
 };
 
@@ -81,12 +83,12 @@ app.post("/login", async (req, res) => {
 
 // Protected Route (Dashboard)
 app.get("/dashboard", authenticateToken, (req, res) => {
-    res.json({ message: `Welcome, ${req.user.username}!` });
+    res.json({ message: `Welcome, ${req.decodedToken.username}!` });
 });
 
 // Protected Route: Get All Customers (Admin Only)
 app.get("/api/customers", authenticateToken, async (req, res) => {
-    const { role } = req.user; // Extract role from decoded token
+    const { role } = req.decodedToken; // Extract role from decoded token
 
     if (role !== 1) {
         return res.status(403).json({ error: "Forbidden: Admins only" });
