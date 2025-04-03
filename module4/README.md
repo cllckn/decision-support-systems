@@ -404,7 +404,8 @@ to verify their identity using multiple factors before granting access.
 
 ### 3.4.A Case Study on Authentication and Authorization
 
-* /module4/part3/
+- The source code can be found in [/module4/part3/](./part3).
+- The database structure of the application is as follows:
 
 ```sql
 CREATE DATABASE dss;
@@ -506,19 +507,23 @@ This is a **Node.js-based web application** with user authentication, role-based
 ---
 ## **Hands-on Exercise2**
 
-Introducing the moderator role with id:3. Moderators will have distinct permissions, separate from admins and registered users.
+- Add a home page for visitors (i.e., anonymous access)
+  - Modify `index.html`:
+    - Remove redirection to the login page
+    - Add an introductory statement and a link to the login page
+    
+* Introducing the moderator role with id:3. Moderators will have distinct permissions, separate from admins and registered users.
 
-### Steps to Implement
+  * Design Moderator Page – Copy registered-user.html, rename it to moderator.html, and update relevant UI elements.
 
-* Design Moderator Page – Copy registered-user.html, rename it to moderator.html, and update relevant UI elements.
+  * Modify Login Handling – Update the authentication function to handle moderator login.
 
-* Modify Login Handling – Update the authentication function to handle moderator login.
+  * Adjust Access Control – Ensure only users with role ID 3 can access moderator.html.
 
-* Adjust Access Control – Ensure only users with role ID 3 can access moderator.html.
-
-* Allow Customer Listing – Update the relevant route in the server to allow moderators to retrieve and list customers.
+  * Allow Customer Listing – Update the relevant route in the server to allow moderators to retrieve and list customers.
 
 
+* Add weather forecast app developed in /module4/part4 into the admin dashboard
 
 
 
@@ -540,4 +545,3 @@ must first be imported into the project. By leveraging ApexCharts, developers ca
 visual representations, improving the overall user experience.
 
 * https://apexcharts.com/javascript-chart-demos/
-
