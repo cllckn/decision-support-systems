@@ -21,13 +21,12 @@
         * [Main Features](#main-features)
         * [Technologies Used](#technologies-used)
         * [Routes & Endpoints](#routes--endpoints)
-          * [🔹 Public Routes](#-public-routes)
-          * [🔹 Protected Routes (Requires Bearer Token in Headers)](#-protected-routes-requires-bearer-token-in-headers)
-        * [🖥️ Web Pages & Access Control](#-web-pages--access-control)
-          * [🔹 Page Structure](#-page-structure)
-        * [🛑 Authentication & Authorization](#-authentication--authorization)
+          * [Public Routes](#public-routes)
+          * [Protected Routes (Requires Bearer Token in Headers)](#protected-routes-requires-bearer-token-in-headers)
+        * [Web Pages & Access Control](#web-pages--access-control)
+          * [Page Structure](#page-structure)
+        * [Authentication & Authorization](#authentication--authorization)
   * [**Hands-on Exercise2**](#hands-on-exercise2)
-    * [Steps to Implement](#steps-to-implement)
   * [Hands-on Exercise3](#hands-on-exercise3)
   * [Part 4: Integrating Visualization Components into Web Applications](#part-4-integrating-visualization-components-into-web-applications)
 <!-- TOC -->
@@ -545,3 +544,4 @@ must first be imported into the project. By leveraging ApexCharts, developers ca
 visual representations, improving the overall user experience.
 
 * https://apexcharts.com/javascript-chart-demos/
+
