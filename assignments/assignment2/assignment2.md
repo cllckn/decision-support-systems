@@ -6,15 +6,15 @@ In this assignment, you will build a web application using **Node.js, PostgreSQL
 ## **Requirements**
 
 ### **1. Database Setup (PostgreSQL - Pagila Sample Database)**
-- Use the **Pagila sample database**.
+- Use the [**Pagila sample database**](https://github.com/cllckn/database-management-systems/blob/main/resources/dbs/dvdrental.zip).
 - Work with the **customer** and **payment** tables.
 - construct a new table `logs` to store high-value transactions.  
   - Suggested schema for `logs`:  
     ```sql
     CREATE TABLE logs (
         id SERIAL PRIMARY KEY,
-        payment_id INTEGER REFERENCES payment (payment_id),
-        customer_id INTEGER REFERENCES customer (customer_id),
+        payment_id INTEGER,
+        customer_id INTEGER,
         amount NUMERIC(10,2),
         log_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
