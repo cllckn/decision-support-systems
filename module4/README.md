@@ -29,6 +29,9 @@
   * [**Hands-on Exercise2**](#hands-on-exercise2)
   * [Hands-on Exercise3](#hands-on-exercise3)
   * [Part 4: Integrating Visualization Components into Web Applications](#part-4-integrating-visualization-components-into-web-applications)
+  * [Part 5: Introduction to WebSocket and Socket.IO](#part-5-introduction-to-websocket-and-socketio)
+    * [WebSocket](#websocket)
+    * [Socket.IO](#socketio)
 <!-- TOC -->
 
 
@@ -529,6 +532,7 @@ This is a **Node.js-based web application** with user authentication, role-based
 ---
 ## Hands-on Exercise3
 
+---
 
 
 ## Part 4: Integrating Visualization Components into Web Applications
@@ -545,3 +549,166 @@ visual representations, improving the overall user experience.
 
 * https://apexcharts.com/javascript-chart-demos/
 
+
+
+
+
+## Part 5: Introduction to WebSocket and Socket.IO
+
+### WebSocket
+
+**WebSocket** is a communication protocol that enables full-duplex, bidirectional communication over a single, 
+long-lived TCP connection. Unlike traditional HTTP, which follows a request-response model, WebSocket allows for 
+continuous data exchange between client and server.
+
+* Key Features:
+  - Persistent connection for real-time communication
+  - Low latency and reduced overhead
+  - Ideal for applications requiring real-time updates (e.g., chat, live feeds, gaming)
+
+* Common Use Cases:
+  - Chat applications
+  - Live dashboards and notifications
+  - Online multiplayer games
+  - Real-time data streaming (e.g., financial data, IoT sensors)
+
+
+
+### Socket.IO
+
+**Socket.IO** is a JavaScript library that builds on WebSocket and adds powerful features for building real-time web applications. 
+It simplifies handling connections and events and ensures compatibility even when WebSocket is not supported by falling back to 
+other transport methods (like long polling).
+
+Socket.IO makes it easier and more reliable to implement real-time features across different platforms and environments.
+
+
+* Key Features:
+  - Automatic reconnection support
+  - Fallback options for older browsers
+  - Event-based communication model
+  - Rooms and namespaces for connection management
+  - Works seamlessly with **Node.js** on the server side
+
+
+* /module4/part5/simple-chat-server/server.js
+
+```javascript
+/*
+The server uses express to serve static files and socket.io to handle real-time communication.
+When a client connects, the server logs the connection and listens for chat message events.
+When a message is received, it broadcasts the message to all connected clients using io.emit().
+*/
+const express = require('express');
+const http = require('http'); // Imports the built-in Node.js 'http' module, which provides functionality for creating HTTP servers and clients. This is used as the underlying layer for Socket.IO.
+const { Server } = require('socket.io'); // Imports the 'Server' class from the 'socket.io' library. This class is responsible for managing WebSocket connections on the server.
+const path = require('path'); // Import the built-in Node.js 'path' module for working with file and directory paths.
+
+const app = express(); // Instantiates an instance of the Express application.
+const server = http.createServer(app); // Instantiates an HTTP server using the Express application as its request handler. Socket.IO needs an underlying HTTP server to work.
+const io = new Server(server); // Initialize a Socket.IO server instance, attaching it to the HTTP server.
+// This is the core object for handling WebSocket connections and communication.
+
+
+// Serve static files (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname, 'public'))); // Middleware to serve static files (HTML, CSS, JS) from the 'public' folder.
+
+io.on('connection', (socket) => {
+  // 'io.on('connection', ...)' sets up an event listener that is triggered whenever a new client establishes a WebSocket connection with the server.
+  // The 'connection' event is a built-in Socket.IO event.
+  // The 'socket' parameter is an object representing the individual connection with the client. Each connected client gets its own unique 'socket' object.
+
+  console.log('A user connected:', socket.id); // Logs the unique ID of the connected client to the server console.
+  // This helps in identifying individual connections.
+
+  // Listen for chat messages
+  socket.on('chat message', (msg) => {
+    // 'socket.on('chat message', ...)' sets up an event listener specifically for the 'chat message' event emitted by this particular connected client.
+    // When the server receives a message with the event name 'chat message' from this client, this callback function will be executed.
+    // The 'msg' parameter contains the data sent by the client with the 'chat message' event.
+    console.log('Message received:', msg);
+
+    // Broadcast the message to all connected clients
+    io.emit('chat message', msg);
+    // 'io.emit('chat message', msg)' sends a message with the event name 'chat message' and the data 'msg' to *all* clients currently connected to the
+    // Socket.IO server, including the sender. This is how the chat message is broadcasted in real-time.
+  });
+
+  // Handle user disconnect
+  socket.on('disconnect', () => {
+    // 'socket.on('disconnect', ...)' sets up an event listener for the built-in 'disconnect' event.
+    // This event is automatically emitted by Socket.IO when a client's connection to the server is closed (e.g., the user closes the browser tab or their internet connection is lost).
+    console.log('A user disconnected:', socket.id); // Logs the ID of the disconnected client to the server console.
+  });
+});
+
+// Start the server
+const PORT = 3000;
+server.listen(PORT, () => {
+  // 'server.listen(PORT, ...)' starts the HTTP server, making the application listen for incoming connections on the specified port.
+  // Socket.IO piggybacks on this HTTP server to establish WebSocket connections.
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+```
+
+* /module4/part5/simple-chat-server/public/index.html
+
+```html
+<!--
+The client connects to the server using socket.io.
+When the user submits a message, it sends the message to the server using socket.emit().
+The client listens for incoming messages and appends them to the chat window.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO Chat</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #messages { list-style-type: none; margin: 0; padding: 0; }
+        #messages li { padding: 8px; background: #f4f4f4; margin-bottom: 5px; }
+        #messages li:nth-child(odd) { background: #e4e4e4; }
+    </style>
+</head>
+<body>
+<h1>Real-Time Chat</h1>
+<ul id="messages"></ul>
+<form id="chat-form">
+    <input id="message-input" autocomplete="off" placeholder="Type a message..." />
+    <button type="submit">Send</button>
+</form>
+
+<!-- Include Socket.IO client library -->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    // Handle form submission
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('message-input');
+    const messages = document.getElementById('messages');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (input.value) {
+            // Emit the message to the server
+            socket.emit('chat message', input.value);
+            input.value = ''; // Clear the input field
+        }
+    });
+
+    // Listen for incoming messages
+    socket.on('chat message', (msg) => {
+        const li = document.createElement('li');
+        li.textContent = msg;
+        messages.appendChild(li);
+        // Scroll to the bottom of the messages list
+        messages.scrollTop = messages.scrollHeight;
+    });
+</script>
+</body>
+</html>
+```
