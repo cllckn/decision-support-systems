@@ -1,8 +1,25 @@
+# Module 5: Machine Learning for Decision Support Systems
+
+<!-- TOC -->
+* [Module 5: Machine Learning for Decision Support Systems](#module-5-machine-learning-for-decision-support-systems)
+* [Artificial Intelligence (AI)](#artificial-intelligence-ai)
+* [Introduction To Machine Learning?](#introduction-to-machine-learning)
+  * [Types of Machine Learning](#types-of-machine-learning)
+    * [Supervised Learning Algorithms](#supervised-learning-algorithms)
+    * [Unsupervised Learning Algorithms](#unsupervised-learning-algorithms)
+    * [Neural Networks & Deep Learning](#neural-networks--deep-learning)
+    * [Key Concepts](#key-concepts)
+  * [A General Framework for Developing Machine Learning-Based Algorithms](#a-general-framework-for-developing-machine-learning-based-algorithms)
+    * [Case Study: Linear Regression for Estimating House Prices](#case-study-linear-regression-for-estimating-house-prices)
+<!-- TOC -->
 
 
 # Artificial Intelligence (AI)
-AI is about making machines behave like humans — think, learn, and solve problems.
+
 AI is a broad field of computer science focused on building machines that can perform tasks that typically require human intelligence.
+
+AI is about making machines behave like humans — think, learn, and solve problems.
+
 AI systems aim to mimic human thinking—whether through rules, learning, or problem-solving.
 
 
@@ -10,29 +27,32 @@ AI systems aim to mimic human thinking—whether through rules, learning, or pro
 # Introduction To Machine Learning?
 
 Machine Learning (ML) is a subfield of Artificial Intelligence (AI) focused on developing algorithms that can learn 
-from data and generalize to new, unseen data. 
-This allows systems to perform tasks without being explicitly programmed.
-
-ML is a way to teach computers to learn from data instead of giving them step-by-step instructions.
-Instead of telling the computer exactly how to recognize a cat, you give it 1,000 pictures of cats 
-and it figures it out by itself.
-
+from data and generalize to new, unseen data. This allows systems to perform tasks without being explicitly programmed. So, ML is a way to teach computers to learn from data instead of giving them step-by-step instructions.
 
 
 ## Types of Machine Learning
 
+Machine learning algorithms can generally be grouped into three major categories: supervised learning, 
+unsupervised learning, and reinforcement learning.
+
 **Supervised Learning**
 
-In supervised learning, models are trained on labeled data — where both input and output are known.
+In supervised learning, models are trained on labeled data — where both input and output are known. 
+Supervised learning problems are generally divided into two main types:
 
 
 - **Classification problem**  
-  Predicts **discrete categories** (e.g., classifying an iris flower as *Setosa*, *Versicolor*, or *Virginica*).  
-  **Example:** Spam detection, disease diagnosis.
+Used when the output is a discrete category or class.
+The goal is to assign inputs to one of several predefined categories.
+  
+  * Predicts **discrete categories** (e.g., classifying an iris flower as *Setosa*, *Versicolor*, or *Virginica*).  
+  * **Example:** Spam detection, disease diagnosis.
 
 - **Regression problem**  
-  Predicts **continuous values** (e.g., predicting house prices based on area and location).  
-  **Example:** Stock price prediction, temperature forecasting.
+Used when the output is a continuous value.
+The model predicts a numeric quantity based on the input features.
+  * Predicts **continuous values** (e.g., predicting house prices based on area and location).  
+  * **Example:** Stock price prediction, temperature forecasting.
 
 
 
@@ -40,11 +60,13 @@ In supervised learning, models are trained on labeled data — where both input 
 
 Unsupervised learning deals with unlabeled data — the goal is to find hidden patterns or groupings.
 
-- **Clustering**  
+- **Clustering problem**  
   Groups similar data points based on similarity (e.g., grouping flowers into species based on petal measurements without predefined labels).  
   **Example:** Grouping emails into categories without predefined labels, customer profiling, market segmentation, clustering similar users....
 
----
+**Reinforcement Learning**  
+
+Reinforcement learning (RL) is a type of machine learning where an agent learns to make decisions by interacting with an environment.
 
 ### Supervised Learning Algorithms
 
@@ -124,9 +146,22 @@ Unsupervised learning deals with unlabeled data — the goal is to find hidden p
 - **Feature Engineering**: Creating new input features to improve model performance.
 
 
-## Case Study: Linear Regression for House Prices
+## A General Framework for Developing Machine Learning-Based Algorithms
 
-### Training Algorithm Pseudocode
+In a typical machine learning application, the procedure is composed of two main steps. The first step 
+involves training and building the model using historical data. In supervised learning, this data is 
+labeled — meaning it includes both inputs and their corresponding correct outputs — which enables the 
+model to learn the mapping between them. In contrast, unsupervised learning relies on unlabeled data, 
+where the model explores the structure or patterns in the data without predefined outputs. Once the model 
+is trained, it is saved for future use. The second step involves loading the trained model and introducing 
+new, unseen inputs to make predictions or extract insights, depending on the learning type.
+This enables the model to provide insights or decisions in real-time without retraining. This separation of training 
+and inference makes machine learning systems efficient and scalable in practical applications.
+
+
+### Case Study: Linear Regression for Estimating House Prices
+
+**First Step: Training Algorithm Pseudocode**
 
 1. Start
 
@@ -153,7 +188,7 @@ Unsupervised learning deals with unlabeled data — the goal is to find hidden p
 ```python
 import numpy as np
 from sklearn.linear_model import LinearRegression
-import joblib  # 📦 For saving/loading the trained model
+import joblib  # For saving/loading the trained model
 
 #  Input features: [square_footage, num_bedrooms]
 X = np.array([
@@ -167,7 +202,7 @@ X = np.array([
 #  Output prices in $1000s (i.e., 200 => $200,000)
 y = np.array([200, 250, 300, 350, 400])
 
-# 🔧 Create a linear regression model and train it on the data
+# Create a linear regression model and train it on the data
 model = LinearRegression()
 model.fit(X, y)  #  Learn coefficients (a, b) and intercept (c)
 
@@ -204,7 +239,7 @@ print("Model saved as 'linear_house_model.pkl'")
 ```
 
 
-### Prediction Application Pseudocode
+**Second Step:Prediction Application Pseudocode**
 
 1. Start
 
@@ -233,7 +268,7 @@ print("Model saved as 'linear_house_model.pkl'")
 6. End
 
 
-* House Price Prediction Console Application
+* House Price Prediction Console App: User Input from Console
 ```python
 import numpy as np
 import joblib
@@ -266,6 +301,72 @@ while True:
 
 ```
 
+* House Price Prediction Application: User Input via Apache Kafka
 
+```python
+import json
 
+import numpy as np
+import joblib
+from confluent_kafka import Consumer, KafkaException, KafkaError
 
+# Load the saved model
+model = joblib.load('linear_house_model.pkl')
+print("House Price Predictor is ready!")
+
+# Kafka consumer setup
+conf = {
+    'bootstrap.servers': 'localhost:9092',
+    'group.id': 'house-price-consumer-group',
+    'auto.offset.reset': 'latest'
+}
+
+consumer = Consumer(conf)
+consumer.subscribe(['dss-ml-house-price-model-input'])
+
+try:
+    while True:
+        # Poll for messages
+        msg = consumer.poll(timeout=1.0)  # Timeout in seconds
+
+        if msg is None:
+            # No message received
+            continue
+        elif msg.error():
+            if msg.error().code() == KafkaError._PARTITION_EOF:
+                # End of partition
+                print(f"End of partition reached {msg.partition} at offset {msg.offset}")
+            else:
+                # Other errors
+                raise KafkaException(msg.error())
+
+        else:
+            # Extract data from the Kafka message (assumes the message value is JSON or string)
+            try:
+                message_value = msg.value().decode('utf-8')
+                # sqft, bedrooms = map(float, message_value.split(','))  # Assuming message format: "2200,3"
+                message_json = json.loads(message_value)
+
+                sqft = message_json['sqft']
+                bedrooms = message_json['bedrooms']
+
+                # Prepare input and make prediction
+                user_input = np.array([[sqft, bedrooms]])
+                predicted_price = model.predict(user_input)
+
+                # Display the result
+                print(f"Predicted house price: ${predicted_price[0]:,.2f}")
+
+            except Exception as e:
+                print(f"Error processing message: {e}. Please check input format.\n")
+
+except KeyboardInterrupt:
+    print("Exiting...")
+finally:
+    # Close the consumer to clean up resources
+    consumer.close()
+
+# Receiving a Message from the Kafka Cluster in the following format:
+# { "sqft": 2200, "bedrooms": 3 }
+
+```
