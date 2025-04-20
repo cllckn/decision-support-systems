@@ -1,4 +1,4 @@
-# **Final Project Assignment: Design and Implementation of a Decision Support System**
+# **Final Project Assignment: Design and Implementation of a Relational Database System Using PostgreSQL**
 
 ## **Objective**
 
@@ -45,3 +45,28 @@ through JWT, log all activities in a PostgreSQL database, and display graphical 
 * Graph Visualization:
   * Retrieve relevant data from the database.
   * Display trends or statistics using interactive charts.
+
+**Evaluation**
+
+As part of the evaluation, each student is required to prepare and present the following:
+
+- A **written report** detailing the project  
+- A **presentation slide deck**  
+- A **5-minute oral defense** summarizing the work  
+- A **live demonstration** of the project on a personal laptop using localhost, to be shown to the committee
+
+- Report Guidelines
+
+  The **report** should provide a clear and concise explanation of your study and must include the following sections:
+
+  * Objective
+
+  Clearly state the purpose and goals of your project. What problem are you addressing, and what do you aim to achieve?
+
+  * Methodology
+
+  Describe the methods, tools, and technologies used in the development of your project.
+
+  In this section, also include a diagram that illustrates the overall architecture of your system, showing its main components and their interactions. Be sure to accompany the figure with a short, relevant explanation.
+
+![](./../../resources/final-project-components.png)
