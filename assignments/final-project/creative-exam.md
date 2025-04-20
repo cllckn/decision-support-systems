@@ -69,4 +69,4 @@ As part of the evaluation, each student is required to prepare and present the f
 
   In this section, also include a diagram that illustrates the overall architecture of your system, showing its main components and their interactions. Be sure to accompany the figure with a short, relevant explanation.
 
-![](./../../resources/final-project-components.png)
+![](../../resources/figures/final-project-components.png)
