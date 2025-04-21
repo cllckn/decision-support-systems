@@ -153,15 +153,21 @@ Reinforcement learning (RL) is a type of machine learning where an agent learns 
 
 ## Part 2: A General Framework for Developing Machine Learning-Based Algorithms
 
-In a typical machine learning application, the procedure is composed of two main steps. The first step 
-involves training and building the model using historical data. In supervised learning, this data is 
-labeled — meaning it includes both inputs and their corresponding correct outputs — which enables the 
-model to learn the mapping between them. In contrast, unsupervised learning relies on unlabeled data, 
-where the model explores the structure or patterns in the data without predefined outputs. Once the model 
-is trained, it is saved for future use. The second step involves loading the trained model and introducing 
-new, unseen inputs to make predictions or extract insights, depending on the learning type.
-This enables the model to provide insights or decisions in real-time without retraining. This separation of training 
-and inference makes machine learning systems efficient and scalable in practical applications.
+In a typical machine learning application, the procedure is composed of two main steps: 
+* The first step involves training and building the model using historical data. Once the model is trained, 
+it is saved for future use. 
+  * In supervised learning, this data is labeled — meaning it includes both inputs and their corresponding correct 
+  outputs — which enables the 
+  model to learn the mapping between them. 
+  * In contrast, unsupervised learning relies on unlabeled data, 
+  where the model explores the structure or patterns in the data without predefined outputs.
+
+* The second step involves loading the trained model and introducing 
+  new, unseen inputs to make predictions or extract insights, depending on the learning type.
+  This enables the model to provide insights or decisions in real-time without retraining. 
+
+This separation of training 
+  and inference makes machine learning systems efficient and scalable in practical applications.
 
 
 ### Case Study: Linear Regression for Estimating House Prices
