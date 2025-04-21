@@ -466,6 +466,8 @@ finally:
 
 ### Iris Dataset
 
+https://www.kaggle.com/datasets/uciml/iris
+
 This application uses the **Iris dataset**, a classical dataset in the field of machine learning and pattern recognition. 
 It consists of 150 samples of iris flowers from three different species: *Iris setosa*, *Iris versicolor*, 
 and *Iris virginica*.
@@ -496,8 +498,396 @@ In the following  apps, only **Sepal Length** and **Sepal Width** are used as in
 
 ### Logistic Regression
 
+```python
+# -----------------------------
+# Import necessary libraries
+# -----------------------------
+import numpy as np
+import matplotlib.pyplot as plt
+import joblib                                     # For saving model and scaler
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+
+
+# -----------------------------
+# Load and prepare the Iris dataset
+# -----------------------------
+iris = datasets.load_iris()
+X = iris.data[:, :2]  # Take only the first two features (sepal length & width) for easy visualization
+y = iris.target       # Labels (0 = Setosa, 1 = Versicolor, 2 = Virginica)
+
+# Split data into training and testing sets (80% train, 20% test)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+
+# -----------------------------
+# Standardize the features
+# -----------------------------
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+
+# -----------------------------
+# Train Logistic Regression model
+# -----------------------------
+log_reg = LogisticRegression(multi_class='multinomial', solver='lbfgs', max_iter=200)
+log_reg.fit(X_train, y_train)
+
+
+# -----------------------------
+# Save model and scaler
+# -----------------------------
+joblib.dump(log_reg, 'logistic_model.pkl')   # Save trained logistic regression model
+joblib.dump(scaler, 'scaler.pkl')            # Save fitted scaler
+
+
+# -----------------------------
+# Predict and evaluate
+# -----------------------------
+y_pred = log_reg.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Model Accuracy: {accuracy:.2f}")
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+
+
+# -----------------------------
+# Function to plot decision boundary
+# -----------------------------
+def plot_decision_boundary(model, X, y):
+    """Function to plot decision boundary for Logistic Regression"""
+    h = 0.02  # Step size for mesh
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+
+    # Predict class labels for each point in the grid
+    Z = model.predict(scaler.transform(np.c_[xx.ravel(), yy.ravel()]))
+    Z = Z.reshape(xx.shape)
+
+    # Plot decision boundary
+    plt.contourf(xx, yy, Z, alpha=0.3, cmap=plt.cm.coolwarm)
+
+    # Scatter plot of data points
+    plt.scatter(X[:, 0], X[:, 1], c=y, edgecolors='k', cmap=plt.cm.coolwarm, marker="o")
+
+    plt.xlabel("Sepal Length")
+    plt.ylabel("Sepal Width")
+    plt.title("Logistic Regression Decision Boundary on Iris Dataset")
+    plt.show()
+
+
+# -----------------------------
+# Visualize the decision boundary
+# -----------------------------
+plot_decision_boundary(log_reg, X, y)
+
+```
+
 ### Support Vector Machine (SVM)
+
+```python
+# -----------------------------
+# Import necessary libraries
+# -----------------------------
+import numpy as np
+import matplotlib.pyplot as plt
+import joblib                              # For saving model and scaler
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, classification_report
+
+
+# -----------------------------
+# Load and prepare the dataset
+# -----------------------------
+iris = datasets.load_iris()                # Load Iris dataset
+print(iris)                                # Print dataset description
+X = iris.data[:, :2]                       # Use first two features for 2D visualization
+y = iris.target                            # Labels (0 = Setosa, 1 = Versicolor, 2 = Virginica)
+
+
+# -----------------------------
+# Split and standardize the data
+# -----------------------------
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+
+# -----------------------------
+# Train SVM model
+# -----------------------------
+svm_model = SVC(kernel='rbf', C=1.0, gamma='scale')  # RBF kernel
+svm_model.fit(X_train, y_train)                      # Train the model
+
+
+# -----------------------------
+# Evaluate the model
+# -----------------------------
+y_pred = svm_model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+
+print(f"Model Accuracy: {accuracy:.2f}")
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+
+
+# -----------------------------
+# Save the model and scaler
+# -----------------------------
+joblib.dump(svm_model, 'svm_model.pkl')    # Save trained SVM model
+joblib.dump(scaler, 'scaler.pkl')          # Save fitted scaler
+
+
+# -----------------------------
+# Function to plot decision boundary
+# -----------------------------
+def plot_decision_boundary(model, X, y):
+    """
+    Function to plot decision boundary of SVM.
+    """
+    h = 0.02  # Step size for mesh grid
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+
+    # Predict on mesh grid
+    Z = model.predict(scaler.transform(np.c_[xx.ravel(), yy.ravel()]))
+    Z = Z.reshape(xx.shape)
+
+    # Plot contour and data points
+    plt.contourf(xx, yy, Z, alpha=0.3, cmap=plt.cm.coolwarm)
+    plt.scatter(X[:, 0], X[:, 1], c=y, edgecolors='k', cmap=plt.cm.coolwarm)
+
+    plt.xlabel("Sepal Length")
+    plt.ylabel("Sepal Width")
+    plt.title("SVM Decision Boundary on Iris Dataset")
+    plt.show()
+
+
+# -----------------------------
+# Visualize decision boundary
+# -----------------------------
+plot_decision_boundary(svm_model, X, y)
+
+```
 
 ### K-Means
 
+```python
+# -----------------------------
+# Import necessary libraries
+# -----------------------------
+import numpy as np
+import matplotlib.pyplot as plt
+import joblib                              # For saving model and scaler
+from sklearn import datasets
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+
+
+# -----------------------------
+# Load and prepare the Iris dataset
+# -----------------------------
+iris = datasets.load_iris()                # Load the dataset containing flower measurements
+X = iris.data[:, :2]                       # Use only the first two features for easy 2D visualization
+y = iris.target                            # True labels (used only for visualization, not for training)
+
+
+# -----------------------------
+# Standardize the features
+# -----------------------------
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)         # Transform the data to have zero mean and unit variance
+
+
+# -----------------------------
+# Apply K-Means clustering
+# -----------------------------
+kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+y_kmeans = kmeans.fit_predict(X_scaled)    # Fit K-Means and assign each data point to a cluster
+
+
+# -----------------------------
+# Save the fitted model and scaler
+# -----------------------------
+joblib.dump(kmeans, 'kmeans_model.pkl')    # Save trained K-Means model
+joblib.dump(scaler, 'scaler.pkl')          # Save fitted scaler
+
+
+# -----------------------------
+# Function to plot decision boundaries
+# -----------------------------
+def plot_decision_boundary_kmeans(model, X):
+    """
+    Function to visualize the decision boundaries of K-Means clustering.
+    It generates a grid of points, predicts their cluster assignments, and plots them as a background color.
+    """
+    h = 0.02  # Step size of the grid for plotting decision regions
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1  # Define x-axis range
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1  # Define y-axis range
+
+    # Create a mesh grid (a grid of points covering the entire feature space)
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+
+    # Predict the cluster for each point in the grid
+    Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)  # Reshape to match the grid shape for visualization
+
+    # Plot the decision boundary using filled contour plot
+    plt.contourf(xx, yy, Z, alpha=0.3, cmap=plt.cm.coolwarm)
+
+    # Scatter plot of actual data points, colored by their predicted cluster
+    plt.scatter(X[:, 0], X[:, 1], c=y_kmeans, edgecolors='k', cmap=plt.cm.coolwarm, marker="o", label="Data Points")
+
+    # Plot centroids of the clusters
+    centroids = model.cluster_centers_
+    plt.scatter(centroids[:, 0], centroids[:, 1], s=200, c='yellow', edgecolors='k', marker="X", label="Centroids")
+
+    # Labels and title
+    plt.xlabel("Sepal Length (Standardized)")
+    plt.ylabel("Sepal Width (Standardized)")
+    plt.title("K-Means Clustering on Iris Dataset")
+    plt.legend()
+    plt.show()
+
+
+# -----------------------------
+# Visualize the clustering result
+# -----------------------------
+plot_decision_boundary_kmeans(kmeans, X_scaled)
+
+```
+
 ### Artificial Neural Networks (ANN)
+
+```python
+# -----------------------------
+# Import necessary libraries
+# -----------------------------
+import numpy as np
+import matplotlib.pyplot as plt
+import tensorflow as tf
+from tensorflow import keras
+import joblib                                # For saving model and scaler
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, classification_report
+
+
+# -----------------------------
+# Load and prepare the dataset
+# -----------------------------
+iris = datasets.load_iris()  # Load Iris dataset
+X = iris.data[:, :2]         # Use first two features for 2D visualization
+y = iris.target              # Labels (0 = Setosa, 1 = Versicolor, 2 = Virginica)
+
+
+# -----------------------------
+# Split and standardize the data
+# -----------------------------
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+
+# -----------------------------
+# Convert labels to one-hot encoding
+# -----------------------------
+y_train_onehot = keras.utils.to_categorical(y_train, num_classes=3)
+y_test_onehot = keras.utils.to_categorical(y_test, num_classes=3)
+
+
+# -----------------------------
+# Build and compile the ANN model
+# -----------------------------
+model = keras.Sequential([
+    keras.layers.Dense(10, activation='relu', input_shape=(2,)),  # Hidden Layer 1 (10 neurons, ReLU)
+    keras.layers.Dense(10, activation='relu'),  # Hidden Layer 2 (10 neurons, ReLU)
+    keras.layers.Dense(3, activation='softmax')  # Output Layer (3 neurons for 3 classes, Softmax for probabilities)
+])
+
+model.compile(optimizer='adam',
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
+
+
+# -----------------------------
+# Train the model
+# -----------------------------
+history = model.fit(X_train, y_train_onehot, epochs=100, verbose=0, batch_size=5)  # Train with 100 epochs
+
+
+# -----------------------------
+# Predict and evaluate the model
+# -----------------------------
+y_pred_prob = model.predict(X_test)  # Get probabilities
+y_pred = np.argmax(y_pred_prob, axis=1)  # Convert probabilities to class labels
+
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Model Accuracy: {accuracy:.2f}")
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+
+
+# -----------------------------
+# Save the model and scaler
+# -----------------------------
+model.save('ann_model.keras')  # Save trained ANN model in Keras format
+joblib.dump(scaler, 'scaler.pkl')        # Save fitted scaler
+
+
+# -----------------------------
+# Function to plot decision boundary
+# -----------------------------
+def plot_decision_boundary_ann(model, X, y):
+    """
+    Function to visualize ANN decision boundary
+    """
+    h = 0.02  # Step size for mesh grid
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+
+    # Predict for each mesh point
+    Z = model.predict(scaler.transform(np.c_[xx.ravel(), yy.ravel()]))
+    Z = np.argmax(Z, axis=1)  # Convert probabilities to class labels
+    Z = Z.reshape(xx.shape)
+
+    # Plot decision boundary
+    plt.contourf(xx, yy, Z, alpha=0.3, cmap=plt.cm.coolwarm)
+
+    # Scatter plot of actual data points
+    plt.scatter(X[:, 0], X[:, 1], c=y, edgecolors='k', cmap=plt.cm.coolwarm)
+
+    plt.xlabel("Sepal Length")
+    plt.ylabel("Sepal Width")
+    plt.title("ANN Decision Boundary on Iris Dataset")
+    plt.show()
+
+
+# -----------------------------
+# Visualize the decision boundary
+# -----------------------------
+plot_decision_boundary_ann(model, X, y)
+
+```
+
+
+
+
