@@ -55,7 +55,7 @@ The course will cover the following topics:
 * Artificial Neural Networks (ANN):
 * Hands-on exercises
 
-### Module 6: Integrating Components into a Decision Support System
+### Module 6: Combining Components to Build a Decision Support System
 * Case Study: End-to-End Development of a Decision Support System for a Real-World Problem
 * Combining data processing, machine learning, and visualization
 * Best practices for deploying and maintaining DSS
