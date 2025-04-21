@@ -46,19 +46,18 @@ The course will cover the following topics:
 * Integrating Visualization Components into Web Applications
 * Hands-on exercises
 
-### Module 5: Machine Learning for Decision Support
+### Module 5: Machine Learning for Decision Support Systems
 * Introduction to machine learning in DSS
+* Linear Regression
 * Logistic Regression
 * Support Vector Machines (SVM)
 * K-Means Clustering
 * Artificial Neural Networks (ANN):
-  * Basics of ANN and their role in decision-making
-  * Building a simple ANN using Python (TensorFlow/Keras)
 * Hands-on exercises
 
-### Module 6: Integrating Components into a DSS
-* Combining data processing, machine learning, and visualization
+### Module 6: Integrating Components into a Decision Support System
 * Case Study: End-to-End Development of a Decision Support System for a Real-World Problem
+* Combining data processing, machine learning, and visualization
 * Best practices for deploying and maintaining DSS
 * Hands-on exercises
 
