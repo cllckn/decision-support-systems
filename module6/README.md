@@ -1,7 +1,8 @@
-# Module 6: Integrating Components into a Decision Support System
+# Module 6: Combining Components to Build a Decision Support System
+Combining Components to Build a Decision Support System
 
 <!-- TOC -->
-* [Module 6: Integrating Components into a Decision Support System](#module-6-integrating-components-into-a-decision-support-system)
+* [Module 6: Combining Components to Build a Decision Support System](#module-6-combining-components-to-build-a-decision-support-system)
   * [Case Study: End-to-End Development of a Decision Support System for a Real-World Problem](#case-study-end-to-end-development-of-a-decision-support-system-for-a-real-world-problem)
     * [Iris Dataset](#iris-dataset)
     * [DSS App (v1): Apache Kafka and  Web Socket Support (/kafka-socket-support)](#dss-app-v1-apache-kafka-and--web-socket-support-kafka-socket-support)
@@ -444,7 +445,7 @@ finally:
 
 ### DSS App (v2): All-in-One Decision Support System
 
-This fully functional DSS is built upon the following application:
+Integrate the modules in app(v1) into the following application to build a fully functional DSS:
 
 [Download and install the application](https://github.com/cllckn/decision-support-systems/tree/main/module4/part3/version2) and run it.
 
