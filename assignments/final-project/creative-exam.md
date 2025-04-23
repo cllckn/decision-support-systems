@@ -1,4 +1,4 @@
-# **Final Project Assignment: Design and Implementation of a Relational Database System Using PostgreSQL**
+# **Final Project Assignment: Designing and Implementing a Scalable Decision Support System with Machine Learning Integration**
 
 ## **Objective**
 
