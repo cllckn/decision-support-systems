@@ -59,14 +59,8 @@ As part of the evaluation, each student is required to prepare and present the f
 
   The **report** should provide a clear and concise explanation of your study and must include the following sections:
 
-  * Objective
+  * Objective: Clearly state the purpose and goals of your project. What problem are you addressing, and what do you aim to achieve?
 
-  Clearly state the purpose and goals of your project. What problem are you addressing, and what do you aim to achieve?
-
-  * Methodology
-
-  Describe the methods, tools, and technologies used in the development of your project.
-
-  In this section, also include a diagram that illustrates the overall architecture of your system, showing its main components and their interactions. Be sure to accompany the figure with a short, relevant explanation.
+  * Methodology: Describe the methods, tools, and technologies used in the development of your project. In this section, also include a diagram that illustrates the overall architecture of your system, showing its main components and their interactions. Be sure to accompany the figure with a short, relevant explanation.
 
 ![](../../resources/figures/final-project-components.png)
