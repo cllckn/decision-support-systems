@@ -702,3 +702,19 @@ app.listen(PORT, () => {
 });
 
 ```
+
+
+
+* rest api testing (rest-test.http)
+
+```shell
+
+### send input for prediction
+POST http://localhost:3000/api/ml-model/send
+Content-Type: application/json
+
+{
+  "sepal_length": 3,
+  "sepal_width": 4
+}
+```
