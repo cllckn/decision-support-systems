@@ -449,7 +449,6 @@ Integrate the modules in app(v1) into the following application to build a fully
 
 [Download and install the application](https://github.com/cllckn/decision-support-systems/tree/main/module4/part3/version2) and run it.
 
-
 This project is an **all-in-one Decision Support System (DSS)** that combines secure user access, data management, 
 real-time machine learning predictions, and interactive visualization — all in a single, integrated web platform.
 
@@ -502,3 +501,204 @@ but real-time, predictive, and actionable decision-making in a unified platform.
 
 - **Visualization**
   ApexCharts is utilized  for generating interactive and visually appealing charts.
+
+* server-with-kafka.js
+```javascript
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const bodyParser = require("body-parser");
+const { Pool } = require("pg");
+const path = require("path");
+const { Kafka } = require("kafkajs");
+
+const app = express();
+const PORT = 3000;
+const SECRET_KEY = "my-secret-key-is-this-at-least-256-bits"; // Change this in production
+const SALT_ROUNDS = 10; // For bcrypt password hashing- Salting Makes Passwords Hard to Guess
+
+// Initialize PostgreSQL connection pool
+const pool = new Pool({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'dss',
+  password: 'LecturePassword',
+  port: 5432,
+});
+
+
+// ──────────────────────────────────────────────────────────────
+// Kafka Setup
+// ──────────────────────────────────────────────────────────────
+const kafka = new Kafka({
+  clientId: "iris-data-app",
+  brokers: ["localhost:9092"]         // Replace with your Kafka broker address
+});
+
+const kafkaProducer = kafka.producer();     // Kafka producer instance
+const kafkaConsumer = kafka.consumer({ groupId: "iris-data-group" });  // Kafka consumer group
+
+
+
+// Middleware
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "public"))); // Serve static files
+
+// Middleware to verify JWT from the request's Authorization header
+// Middlewares in Express.js act as interceptors that sit between the incoming request and the final route handler (or response).
+// They can modify, validate, or reject requests before they reach their destination.
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Unauthorized: Missing or invalid token" });
+  }
+
+  const token = authHeader.split(" ")[1]; // Extract token after "Bearer "
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    req.decodedToken = decoded; // Store decoded user info in the request
+    next() // Token is valid, proceed to the next middleware or route
+  } catch (error) {
+    return res.status(403).json({ error: "Forbidden: Invalid token" });// Token is not valid, respond with status code 403
+  }
+};
+
+// Route to Register a New User
+app.post("/register", async (req, res) => {
+  const { username, password, firstname, lastname, role } = req.body;
+  try {
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    await pool.query(
+            "INSERT INTO users (username, password, firstname, lastname, role) VALUES ($1, $2, $3, $4, $5)",
+            [username, hashedPassword, firstname, lastname, role]
+    );
+    res.json({ message: "User registered successfully!" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Login Route (JWT Authentication)
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const result = await pool.query("SELECT * FROM users WHERE username = $1", [username]);
+    const user = result.rows[0];
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    const token = jwt.sign(
+            { id: user.id, username: user.username, firstname: user.firstname, lastname: user.lastname, role: user.role },
+            SECRET_KEY,
+            { expiresIn: "1h" }
+    );
+    res.json({ token });
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Protected Route (Dashboard)
+app.get("/dashboard", authenticateToken, (req, res) => {
+  res.json({ message: `Welcome, ${req.decodedToken.username}!` });
+});
+
+// Protected Route: Get All Customers (Admin Only)
+app.get("/api/customers", authenticateToken, async (req, res) => {
+  const { role } = req.decodedToken; // Extract role from decoded token
+
+  if (role !== 1 && role !== 3) {
+    return res.status(403).json({ error: "Forbidden: Admins only" });
+  }
+
+  try {
+    const result = await pool.query("SELECT id, name, email, phone, city FROM customers");
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch customers" });
+  }
+});
+
+
+
+// ──────────────────────────────────────────────────────────────
+// Route: POST /api/ml-model/send
+// Purpose: Accept sepal_length and sepal_width, send to Kafka topic for ML processing
+// ──────────────────────────────────────────────────────────────
+app.post("/api/ml-model/send", async (req, res) => {
+  const { sepal_length, sepal_width } = req.body;
+
+  // Validate input
+  if (!sepal_length || !sepal_width) {
+    return res.status(400).json({ error: "Missing sepal length or width." });
+  }
+
+  const message = {
+    sepal_length,
+    sepal_width
+  };
+
+  try {
+    // Connect → Send message → Disconnect
+    await kafkaProducer.connect();
+    await kafkaProducer.send({
+      topic: "dss-ml-model-input",
+      messages: [{
+        key: Date.now().toString(),
+        value: JSON.stringify(message)
+      }]
+    });
+    await kafkaProducer.disconnect();
+
+    // Respond with success status
+    res.status(201).json({ status: "Sent to Kafka", ...message });
+
+  } catch (err) {
+    console.error("Kafka send failed:", err.message);
+    res.status(500).json({ error: "Kafka send failed", details: err.message });
+  }
+});
+
+
+// ──────────────────────────────────────────────────────────────
+// Kafka Consumer Listener Function
+// Purpose: Listen to predictions from Kafka and broadcast via WebSocket
+// ──────────────────────────────────────────────────────────────
+const startKafkaPredictionListener = async () => {
+  await kafkaConsumer.connect();
+  await kafkaConsumer.subscribe({ topic: "dss-ml-model-output", fromBeginning: true });
+
+  await kafkaConsumer.run({
+    eachMessage: async ({ message }) => {
+      try {
+        const modelResult = JSON.parse(message.value.toString());
+        console.log("Received ML output from Kafka:", modelResult);
+
+        // Emit to all connected clients via WebSocket
+        // io.emit('model-result', modelResult);
+      } catch (err) {
+        console.error("Error parsing Kafka message:", err.message);
+      }
+    }
+  });
+};
+
+// ──────────────────────────────────────────────────────────────
+// Start Kafka Listener
+// ──────────────────────────────────────────────────────────────
+startKafkaPredictionListener().catch(console.error);
+
+
+
+
+
+// Start Server
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
+
+```
